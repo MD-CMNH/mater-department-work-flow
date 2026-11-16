@@ -178,6 +178,20 @@ tr:nth-child(even) td{background:rgba(120,95,40,.025)}
 th{background:linear-gradient(#F3EAD6,#E5D8BB);font-weight:700;font-size:13px;color:#3A3020;text-shadow:0 1px 0 rgba(255,255,255,.8);border-bottom:2px solid #C9B88E}
 td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
 .neg{color:var(--bad)}.pos{color:var(--good)}
+.wcard{padding:16px 20px;margin:0 0 16px}.wcard h4{margin:0 0 12px;font-size:19px}.wcard h4 .note{display:block;font-size:13px;font-weight:400;margin-top:2px}.wcard h5{margin:16px 0 6px;font-size:14.5px;color:#20392F}
+.wrow{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center;margin-top:8px}.wl{font-size:13px;color:var(--mute)}.wl b{display:block;font:700 20px/1.1 Trirong,Georgia,serif;color:var(--ink)}
+.wbar{display:flex;gap:2px;height:34px}.wbar i{display:block;min-width:3px;border-radius:4px}
+.wbar .wgap{position:relative;background:repeating-linear-gradient(135deg,#F6E3C8 0 6px,#EBCB9E 6px 8px);border:2px dashed #7A5222;display:flex;align-items:center;justify-content:center}
+.wgap span{font:700 15px Trirong,Georgia,serif;color:#5A3A12;white-space:nowrap}
+.wleg{display:flex;flex-wrap:wrap;gap:4px 14px;margin:5px 0 0 120px;font-size:12.5px;color:var(--mute)}.wleg b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}.wleg em{font-style:normal;color:var(--ink);font-weight:600}
+.weq{margin:14px 0 0;padding:9px 14px;background:#FBF1DF;border-radius:8px;font-size:14px}.weq b{color:#5A3A12;font-size:15.5px}
+.wwhy,.wlev{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.wwhy div,.wlev div{background:#FFFDF7;border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:13.5px}
+.wwhy b{display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;background:#EFE6D2;margin-right:6px;font-size:12px}
+.wlev b{display:block;font:700 20px/1.2 Trirong,Georgia,serif;color:var(--good)}
+.wmon{margin-top:4px}.wbars{display:flex;gap:2px;height:80px}.wc{flex:1;display:flex;flex-direction:column}.wc>span{display:flex;flex-direction:column;justify-content:flex-end}.wc>span.z{justify-content:flex-start;border-top:1.5px solid #9AA5A1}
+.wbars i{display:block;min-height:2px}.wbars i.n{background:#B8893B;border-radius:0 0 3px 3px}.wbars i.p{background:#2F6B57;border-radius:3px 3px 0 0}
+.wax{position:relative;height:18px;display:flex;justify-content:space-between;font-size:12px;color:var(--mute);margin-top:3px}.wmk{position:absolute;top:0;white-space:nowrap;color:#5A3A12;font-weight:600}b.inv{color:#7A5222}
+@media(max-width:640px){.wrow{grid-template-columns:1fr}.wleg{margin-left:0}.wwhy,.wlev{grid-template-columns:1fr}.wgap span{font-size:12px}}
 .kbase{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}.kbase>b{display:block;font-size:13.5px;margin-bottom:6px;color:#20392F}
 .kb{display:grid;grid-template-columns:190px 1fr 260px;gap:10px;align-items:center;font-size:13.5px;padding:3px 0}
 .kbt{position:relative;height:14px;background:#EFE6D2;border-radius:7px}.kbt i{position:absolute;left:0;top:0;bottom:0;background:#2F6B57;border-radius:7px}.kbt em{position:absolute;top:-4px;bottom:-4px;width:3px;margin-left:-1px;background:#B8702E;border-radius:2px}
@@ -409,6 +423,7 @@ h4.jdg{margin:18px 0 6px;color:var(--brand)}table.jdh{margin:8px 0;box-shadow:no
   <h2>สรุปสำหรับ CEO <span class="tag warn">ร่างเพื่อตัดสินใจ</span></h2>
   <p class="lead">ครึ่งปีแรกจัดระบบภายใน (คลินิกหน้า รพ. โครงสร้าง CEO–MD KPI) ครึ่งปีหลังเปิด รพ. Villa และตลาดต่างประเทศ</p>
   <div class="grid g4" id="sumStats"></div>
+  <div class="why" id="why2"></div>
   <h3>ทางเลือกให้ CEO ตัดสินใจ</h3>
   <p class="note">เทียบแผนเดิมกับแผนใหม่ (คลินิกอาคารหน้า รพ.) คำนวณสดจากสมมติฐานในแท็บการเงิน</p>
   <div class="scroll"><table id="opt"></table></div>
@@ -540,6 +555,7 @@ h4.jdg{margin:18px 0 6px;color:var(--brand)}table.jdh{margin:8px 0;box-shadow:no
   <div class="scn"><span class="note">เลือกสถานการณ์:</span><div class="filters" id="scn"></div></div>
   <p class="note" id="scnNote" style="margin:8px 0 12px"></p>
   <div class="grid g4" id="finStats" style="margin-bottom:14px"></div>
+  <div class="why" id="why"></div>
   <div class="card"><div class="ctrl" id="ctrl"></div>
     <p class="note" style="margin:10px 0 0"><button id="reset" class="btn">คืนค่าเริ่มต้น</button></p></div>
   <h3>เงินสดสะสม 24 เดือน</h3>
@@ -638,12 +654,13 @@ function model(p){
     const clin=i>=p.clinicOpen&&i<p.opdOpen;
     const actI=i>=p.ipdOpen-p.pre,actV=i>=p.villaOpen-p.pre,actO=i>=p.opdOpen-p.pre;
     const hi=actI?Math.max(p.minI,Math.ceil(C.ipdFull*oi-1e-9)):0,hv=actV?Math.max(p.minV,Math.ceil(C.villaFull*ov-1e-9)):0;
-    const cost=(actO?((p.phase&&i<p.ipdOpen-p.pre)?p.opdSmall:C.opdWage):0)+(actI?C.ipdFixed:0)+hi*C.naWage+(actV?C.villaFixed:0)+hv*C.naWage
-      +(i>=p.opdOpen?C.facility+C.util*p.utilShare:0)+(mi>0?C.util*(1-p.utilShare):0)+rt*C.varPer+(i>=p.loanStart?p.loan:0)+(clin?p.clinicCost:0)+(i===Math.max(1,p.clinicOpen)?p.clinicReno:0);
+    const cp={staff:(actO?((p.phase&&i<p.ipdOpen-p.pre)?p.opdSmall:C.opdWage):0)+hi*C.naWage+hv*C.naWage,fixed:(actI?C.ipdFixed:0)+(actV?C.villaFixed:0),
+      place:(i>=p.opdOpen?C.facility+C.util*p.utilShare:0)+(mi>0?C.util*(1-p.utilShare):0)+rt*C.varPer,loan:i>=p.loanStart?p.loan:0,clinic:(clin?p.clinicCost:0)+(i===Math.max(1,p.clinicOpen)?p.clinicReno:0)};
+    const cost=cp.staff+cp.fixed+cp.place+cp.loan+cp.clinic;
     const rv2=rev+(clin?p.clinicRev:0);const net=rv2-cost;cum+=net;
     const adm=i===1?rt:Math.max(0,rt-prevRes)+Math.round(prevRes*p.churn);
     const lead=Math.ceil(adm/p.conv-1e-9);
-    out.push({i,oi,ov,ri,rv,rt,rev:rv2,cost,net,cum,hi,hv,adm,lead,ipdR,vilR,addR,opdR,clinR:clin?p.clinicRev:0});prevRes=rt;
+    out.push({i,oi,ov,ri,rv,rt,rev:rv2,cost,cp,net,cum,hi,hv,adm,lead,ipdR,vilR,addR,opdR,clinR:clin?p.clinicRev:0});prevRes=rt;
   }
   return out;
 }
@@ -788,10 +805,34 @@ function lineChart(el,vals,labels,opt){
     const k=vals.indexOf(Math.min(...vals));if(vals[k]<0){const an=k>vals.length*.75?'end':k<vals.length*.25?'start':'middle';s+='<text x="'+(X(k)+(an==='end'?-10:an==='start'?10:0))+'" y="'+(Y(vals[k])-10)+'" font-size="13" text-anchor="'+an+'" fill="#7A5222" font-weight="600">จุดต่ำสุด '+fm(vals[k])+'</text>';}}
   el.innerHTML=s+'</svg>';
 }
+// ---------- infographic: where the 24-month cash need comes from (recomputed from the live model)
+function drawWhy(m,s){const W=(m,f)=>m.reduce((a,x)=>a+f(x),0),cs=k=>W(m,x=>x.cp[k]);
+  const COST=[['บุคลากร OPD + ผู้ช่วยพยาบาล',cs('staff'),'#7A5222'],['ค่าคงที่ IPD + Villa',cs('fixed'),'#9C6B33'],['ผ่อนเงินกู้',cs('loan'),'#B8893B'],['สถานที่ น้ำไฟ ของใช้ต่อผู้ป่วย',cs('place'),'#CFA968'],['คลินิกหน้า รพ.',cs('clinic'),'#E2CB9A']].filter(x=>x[1]>0);
+  const REV=[['ค่าเตียง IPD',W(m,x=>x.ipdR),'#1F4D3E'],['ค่าที่พัก Villa',W(m,x=>x.vilR),'#3A7D68'],['OPD + คลินิก + แพ็กเกจ',W(m,x=>x.opdR+x.addR+x.clinR),'#7FB39E']];
+  const tc=W(m,x=>x.cost),tr=W(m,x=>x.rev),gap=tc-tr,mx=tc,last=m[m.length-1],y=n=>(n/1e6).toFixed(1),y2=n=>(n/1e6).toFixed(2);
+  const seg=(arr)=>arr.filter(x=>x[1]>0).map(([n,v,c])=>'<i style="flex:'+v+';background:'+c+'" title="'+n+': '+fm(v)+'"></i>').join('');
+  const lab=(arr)=>arr.map(([n,v,c])=>'<span><b style="background:'+c+'"></b>'+n+' <em>'+y(v)+' ล.</em></span>').join('');
+  const first=m.find(x=>x.rev>0),noRev=first?first.i-1:m.length;
+  // levers: rerun the model with one change each
+  const pk=pp=>summary(model(pp),pp).peak,cl=pk(Object.assign({},P,{clinicRev:P.clinicCost})),need=Math.max(0,-last.net),op=need?pk(Object.assign({},P,{opdRev:P.opdRev+need})):s.peak;
+  const up=Math.max(0,...m.map(x=>x.net)),dn=Math.max(1,...m.map(x=>-x.net)),tot=up+dn;
+  const bars=m.map(x=>'<span class="wc" title="'+mlabel(x.i)+': '+(x.net<0?'ขาด ':'เกิน ')+fm(Math.abs(x.net))+'"><span style="height:'+(up/tot*100)+'%">'+(x.net>0?'<i class="p" style="height:'+(x.net/up*100)+'%"></i>':'')+'</span><span class="z" style="height:'+(dn/tot*100)+'%">'+(x.net<0?'<i class="n" style="height:'+(-x.net/dn*100)+'%"></i>':'')+'</span></span>').join('');
+  return '<div class="card wcard"><h4>'+y2(gap)+' ล้าน มาจากไหน? <span class="note">โครงการ รพ. + Villa · 24 เดือน (ม.ค. 70 – ธ.ค. 71) · ไม่รวมค่าก่อสร้าง (อยู่ในเงินกู้)</span></h4>'
+   +'<div class="wrow"><div class="wl">รายจ่าย<b>'+y(tc)+' ล.</b></div><div class="wbar" style="width:100%">'+seg(COST)+'</div></div><div class="wleg">'+lab(COST)+'</div>'
+   +'<div class="wrow"><div class="wl">รายรับ<b>'+y(tr)+' ล.</b></div><div class="wbar" style="width:100%">'+seg(REV)+'<i class="wgap" style="flex:'+gap+'"><span>ขาด '+y2(gap)+' ล.</span></i></div></div><div class="wleg">'+lab(REV)+'</div>'
+   +'<div class="weq">รายจ่าย '+y(tc)+' − รายรับ '+y(tr)+' = <b>ต้องเตรียม '+y2(gap)+' ล้าน</b> · แบ่งเป็นปี 2570 '+y2(-s.y1)+' ล. + ปี 2571 '+y2(-s.y2)+' ล.</div>'
+   +'<h5>ทำไมสูง</h5><div class="wwhy"><div><b>1</b>'+noRev+' เดือนแรกมีแต่รายจ่าย ยังไม่มีผู้ป่วย</div><div><b>2</b>เปิด '+mlabel(P.ipdOpen)+' ผู้ป่วยค่อยๆ เพิ่ม 15% → 85% ใน 12 เดือน</div><div><b>3</b>'+(REV[2][1]?'รายได้ OPD/คลินิก/แพ็กเกจ ยังน้อย':'ยังไม่ใส่รายได้ OPD คลินิก และแพ็กเกจ (= 0) เพราะรอตัวเลขจาก Group Finance')+'</div></div>'
+   +'<h5>เงินขาดแต่ละเดือน</h5><div class="wmon"><div class="wbars">'+bars+'</div><div class="wax"><span>ม.ค. 70</span><span class="wmk" style="left:'+((P.ipdOpen-1)/m.length*100)+'%">▲ เปิด IPD '+mlabel(P.ipdOpen)+'</span><span>ธ.ค. 71</span></div>'
+   +'<p class="note">'+(need?'เดือนสุดท้ายเต็ม 85% แล้วยัง<b class="inv"> ขาด '+y(need)+' ล./เดือน</b> เส้นจึงยังไม่หยุดลง':'เดือนสุดท้ายรายรับเกินรายจ่ายแล้ว')+'</p></div>'
+   +'<h5>อะไรลดตัวเลขนี้ได้</h5><div class="wlev">'
+   +'<div><b>−'+y(s.peak-cl)+' ล.</b>คลินิกหน้า รพ. มีรายได้เท่าค่าใช้จ่าย '+fmt(P.clinicCost)+'/เดือน</div>'
+   +(need?'<div><b>−'+y(s.peak-op)+' ล.</b>มีรายได้ OPD + แพ็กเกจ ≈ '+y(need)+' ล./เดือน หลังเปิด รพ. (หยุดการขาดทุนรายเดือน)</div>':'')
+   +'<div><b>?</b>ใช้ตัวเลขจริงจาก Group Finance แทนค่าสมมติ (เงินกู้ ราคา อัตราเข้าพัก) · ลองเปลี่ยนเองได้ในแท็บการเงิน</div></div></div>'}
 function run(){
   const m=model(P),s=summary(m);
+  {const h=drawWhy(m,s);$('#why').innerHTML=h;$('#why2').innerHTML=h}
   const ss=(l,v,cls,sub)=>'<div class="card stat"><div class="l">'+l+'</div><div class="v '+(cls||'')+'">'+v+'</div><div class="sub">'+sub+'</div></div>';
-  $('#finStats').innerHTML=ss('เงินลงทุนที่ต้องเตรียมสูงสุด',fm(s.peak),'inv','จุดต่ำสุดของเงินสดสะสม = เงินสำรองที่ต้องมี (ตามแผน)')+ss('เดือนแรกที่มีกำไร',s.be?mlabel(s.be.i):'เกิน 24 เดือน','','เดือนแรกหลังเปิด IPD ที่รายรับ > รายจ่าย')+ss('ผลปี 2570',fm(s.y1),s.y1<0?'inv':'','ช่วงลงทุนก่อตั้ง · กำไร/ขาดทุนโครงการทั้งปี')+ss('ผลปี 2571',fm(s.y2),s.y2<0?'inv':'','ปีแรกที่ รพ. และ Villa เปิดเต็มปี');
+  $('#finStats').innerHTML=ss('เงินที่ต้องเตรียม (24 เดือน)',fm(s.peak),'inv','รายจ่ายเกินรายรับสะสม ม.ค. 70 – ธ.ค. 71 · ที่มาดูกล่องด้านล่าง')+ss('เดือนแรกที่มีกำไร',s.be?mlabel(s.be.i):'เกิน 24 เดือน','','เดือนแรกหลังเปิด IPD ที่รายรับ > รายจ่าย')+ss('ผลปี 2570',fm(s.y1),s.y1<0?'inv':'','ช่วงลงทุนก่อตั้ง · กำไร/ขาดทุนโครงการทั้งปี')+ss('ผลปี 2571',fm(s.y2),s.y2<0?'inv':'','ปีแรกที่ รพ. และ Villa เปิดเต็มปี');
   drawScn();drawScnTable();drawRev(m);
   lineChart($('#chart'),m.map(x=>x.cum),m.map(x=>mlabel(x.i)),{title:'เงินสดสะสม',step:2e6,tick:t=>(t/1e6)+' ล.'});
   let q='<tr><th>ไตรมาส</th><th class="n">ผู้พักปลายไตรมาส</th><th class="n">รายได้</th><th class="n">ค่าใช้จ่าย</th><th class="n">กำไร/ขาดทุน</th><th class="n">เงินสดสะสม</th></tr>';
@@ -814,7 +855,7 @@ function run(){
    +'<tr><td>ตลาดต่างประเทศ (ยังต้องเลือก)</td><td colspan="2">ใช้ได้กับทั้งสองแผน: A เริ่มขายในสวิส ก.ค. 70 หรือ B ทดลองขาย Q4 แล้วขายเต็มปี 2571 (เสนอ B)</td></tr>';
   kpiRender();
   // summary page
-  $('#sumStats').innerHTML=stat('เงินลงทุนที่ต้องเตรียมสูงสุด (24 เดือน)',fm(s.peak),'inv','hero')+stat('ผลปี 2570 (ช่วงลงทุน)',fm(s.y1),s.y1<0?'inv':'')+stat('เดือนแรกที่มีกำไร',s.be?mlabel(s.be.i):'เกิน 24 เดือน')+stat('คลินิกหน้า รพ. ต้องมีรายได้','≥ '+fmt(P.clinicCost)+'/เดือน')+stat('รายได้ OPD + แพ็กเกจ รพ. ที่ต้องมี','≈ 1.04 ล้าน/เดือน')+stat('ค่าใช้จ่าย รพ. + Villa ตอนเต็ม (รวมค่าผ่อน)','4.53 ล้าน/เดือน')+stat('พนักงาน รพ. + Villa','118 คน')+stat('ผู้สนใจที่ต้องหาปี 2570',s.l1+' ราย');
+  $('#sumStats').innerHTML=stat('เงินที่ต้องเตรียม (24 เดือน)',fm(s.peak),'inv','hero')+stat('ผลปี 2570 (ช่วงลงทุน)',fm(s.y1),s.y1<0?'inv':'')+stat('เดือนแรกที่มีกำไร',s.be?mlabel(s.be.i):'เกิน 24 เดือน')+stat('คลินิกหน้า รพ. ต้องมีรายได้','≥ '+fmt(P.clinicCost)+'/เดือน')+stat('รายได้ OPD + แพ็กเกจ รพ. ที่ต้องมี','≈ 1.04 ล้าน/เดือน')+stat('ค่าใช้จ่าย รพ. + Villa ตอนเต็ม (รวมค่าผ่อน)','4.53 ล้าน/เดือน')+stat('พนักงาน รพ. + Villa','118 คน')+stat('ผู้สนใจที่ต้องหาปี 2570',s.l1+' ราย');
 }
 
 // ---------- tasks
