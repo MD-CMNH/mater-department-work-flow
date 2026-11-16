@@ -559,7 +559,7 @@ h4.jdg{margin:18px 0 6px;color:var(--brand)}table.jdh{margin:8px 0;box-shadow:no
   <div class="card"><div class="ctrl" id="ctrl"></div>
     <p class="note" style="margin:10px 0 0"><button id="reset" class="btn">คืนค่าเริ่มต้น</button></p></div>
   <h3>เงินสดสะสม 24 เดือน</h3>
-  <p class="note" style="margin-top:-4px">เส้นต่ำลง = ช่วงลงทุน (ใช้เงินมากกว่ารับ) · จุดต่ำสุดของเส้นคือ "เงินลงทุนที่ต้องเตรียมสูงสุด"</p>
+  <p class="note" style="margin-top:-4px">เส้นต่ำลง = ช่วงลงทุน (ใช้เงินมากกว่ารับ) · ค่าของเส้นเดือนสุดท้าย (ธ.ค. 71) คือ "เงินที่ต้องเตรียม 24 เดือน"</p>
   <div class="card" id="chart"></div>
   <h3>เทียบสถานการณ์ (คำนวณจากค่าเริ่มต้น)</h3>
   <p class="note" style="margin-top:-4px">ใช้ตอบคำถาม "ถ้า…จะเป็นอย่างไร" ในห้องประชุม · กดชื่อสถานการณ์เพื่อโหลดค่าขึ้นด้านบน</p>
@@ -722,7 +722,7 @@ function drawRev(m){
   const mi=$('#mixInfo');if(mi){const tot=(P.mix||DEF.mix).reduce((a,b)=>a+(+b||0),0);mi.innerHTML='รวม '+tot+'%'+(tot!==100?' <span class="tag warn">ไม่ครบ 100 ระบบปรับสัดส่วนให้อัตโนมัติ</span>':'')+' · ค่าเตียงเฉลี่ย IPD '+fmt(ipdP(P))+' · Villa '+fmt(villaP(P))}
 }
 function drawScnTable(){
-  $('#scnTable').innerHTML='<tr><th>สถานการณ์</th><th class="n">เงินลงทุนที่ต้องเตรียมสูงสุด</th><th class="n">ผลปี 2570</th><th class="n">ผลปี 2571</th><th>เดือนแรกที่มีกำไร</th></tr>'+SCN.map(([n,o],i)=>{const q=scnP(o),r=summary(model(q),q);
+  $('#scnTable').innerHTML='<tr><th>สถานการณ์</th><th class="n">เงินที่ต้องเตรียม (24 เดือน)</th><th class="n">ผลปี 2570</th><th class="n">ผลปี 2571</th><th>เดือนแรกที่มีกำไร</th></tr>'+SCN.map(([n,o],i)=>{const q=scnP(o),r=summary(model(q),q);
     return '<tr><td data-i="'+i+'">'+n+'</td><td class="n">'+fm(r.peak)+'</td><td class="n '+(r.y1<0?'neg inv':'pos')+'">'+fm(r.y1)+'</td><td class="n '+(r.y2<0?'neg inv':'pos')+'">'+fm(r.y2)+'</td><td>'+(r.be?mlabel(r.be.i):'เกิน 24 เดือน')+'</td></tr>'}).join('');
   $('#scnTable').querySelectorAll('td[data-i]').forEach(td=>td.onclick=()=>{applyScn(+td.dataset.i);window.scrollTo({top:$('#fin').offsetTop-20,behavior:'smooth'})});
 }
@@ -849,7 +849,7 @@ function run(){
   $('#opt').innerHTML='<tr><th>เรื่อง</th><th>แผนเดิม: OPD รพ. มี.ค. 70</th><th>แผนใหม่: คลินิกหน้า รพ. '+mlabel(P.clinicOpen)+'</th></tr>'
    +'<tr><td>OPD ก่อนเปิด IPD</td><td>OPD เต็มที่ รพ. 822,000 บาท/เดือน + ค่าสถานที่ รพ. ตั้งแต่ มี.ค.</td><td>คลินิกเวชกรรมที่อาคารหน้า รพ. 8 คน '+fmt(P.clinicCost)+' บาท/เดือน แล้วย้ายเข้า รพ. '+mlabel(P.opdOpen)+'</td></tr>'
    +'<tr><td>ใบอนุญาตคลินิก</td><td>คลินิกแยกที่อาคาร รพ. ต้องรออาคาร OPD เสร็จ</td><td>ยื่นที่อาคารสำนักงานหน้า รพ. ภายใน 30 พ.ย. 69 (ต้องให้อาคารเสร็จก่อน)</td></tr>'
-   +'<tr><td>เงินลงทุนที่ต้องเตรียมสูงสุด</td><td>'+fm(ro.peak)+'</td><td>'+fm(rn.peak)+'</td></tr>'
+   +'<tr><td>เงินที่ต้องเตรียม (24 เดือน)</td><td>'+fm(ro.peak)+'</td><td>'+fm(rn.peak)+'</td></tr>'
    +'<tr><td>ผลปี 2570</td><td>'+fm(ro.y1)+'</td><td>'+fm(rn.y1)+'</td></tr>'
    +'<tr><td>ถ้าคลินิกหน้า รพ. มีรายได้เท่าทุน</td><td>–</td><td>'+fm(-rbk.peak)+'</td></tr>'
    +'<tr><td>ตลาดต่างประเทศ (ยังต้องเลือก)</td><td colspan="2">ใช้ได้กับทั้งสองแผน: A เริ่มขายในสวิส ก.ค. 70 หรือ B ทดลองขาย Q4 แล้วขายเต็มปี 2571 (เสนอ B)</td></tr>';
@@ -930,7 +930,7 @@ function openReport(j){const pre=new Date()<new Date(2027,0,1);if(j==null)j=pre?
   const dn=tstat.filter(v=>v==2).length,pend=DECS.filter((_,i)=>((cdec[i]||{}).s||'รอตัดสิน')==='รอตัดสิน');
   const lst=LICS.map(([k,n,h,,,s0])=>[n,h,(lhub[k]||{}).s||s0]).filter(r=>!['มีแล้ว','ไม่ใช้','ทุกปี','ถ้ามีเอกซเรย์'].includes(r[2]));
   const dl=r=>[thShort(r.d)+(r.days<0?' <span class="neg">(เลย '+(-r.days)+' วัน)</span>':''),r.k,r.t,r.o];
-  let fin='';if(window.__fin!==false){const s=summary(model(P));fin='<h3>6. การเงินโครงการ รพ. + Villa (ตามแผน)</h3>'+T(['เงินลงทุนที่ต้องเตรียมสูงสุด','ผลปี 2570','เดือนแรกที่มีกำไร','ผลจริงเดือนนี้'],[[fm(s.peak),fm(s.y1),s.be?mlabel(s.be.i):'เกิน 24 เดือน',BL]])}
+  let fin='';if(window.__fin!==false){const s=summary(model(P));fin='<h3>6. การเงินโครงการ รพ. + Villa (ตามแผน)</h3>'+T(['เงินที่ต้องเตรียม (24 เดือน)','ผลปี 2570','เดือนแรกที่มีกำไร','ผลจริงเดือนนี้'],[[fm(s.peak),fm(s.y1),s.be?mlabel(s.be.i):'เกิน 24 เดือน',BL]])}
   $('#mbody').innerHTML='<div class="rpt"><h2>รายงานประจำเดือน MD → CEO · '+mlab+'</h2><div class="meta"><span class="tag">ข้อมูล ณ '+thShort(new Date())+'</span><span class="tag">เดือนของ KPI: <select id="rptm">'+'<option value="-1">ช่วงเตรียมการ</option>'+MON.map((m,x)=>'<option value="'+x+'"'+(x===j?' selected':'')+'>'+m+' 70</option>').join('')+'</select></span></div>'
    +'<div class="rgrid"><div><b>'+dn+'/'+TASKS.length+'</b><span>งานในตารางเสร็จ</span></div><div><b class="'+(late.length?'neg':'')+'">'+late.length+'</b><span>งาน/เรื่องเลยกำหนด</span></div><div><b>'+pend.length+'</b><span>เรื่องรอ CEO ตัดสิน</span></div><div><b>'+(j<0?'–':ok+' / '+(ok+bad))+'</b><span>'+(j<0?'KPI เริ่มนับ ม.ค. 70':'KPI ผ่าน · รอกรอก '+wait)+'</span></div></div>'
    +'<h3>1. KPI '+(j<0?'(เริ่มนับผล ม.ค. 70)':MON[j]+' 70')+'</h3>'+(j<0?'<p class="note">ยังไม่มีผล · ผลเดือน ม.ค. กรอกภายใน 5 ก.พ. 70</p>':krows.length?T(['KPI','สาย','เป้า','ผลจริง','ผล'],krows):'<p class="note">ไม่มี KPI ที่มีเป้าเดือนนี้</p>')
