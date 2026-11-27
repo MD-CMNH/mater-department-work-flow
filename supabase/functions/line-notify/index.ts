@@ -7,6 +7,7 @@
 //   POST {type:"reminder", dry?}       from pg_cron (header x-cron-secret), Mon–Fri 17:30: status card to the alert
 //                                      group + a personal nudge to subscribed heads whose department has not sent.
 //                                      dry:true returns the messages without sending.
+//   POST {type:"quota"}                (header x-cron-secret) this month's LINE message quota, usage and alert-group size
 //   POST {type:"test"}                 (header x-cron-secret) sends one card of each kind to the alert group, marked as a test
 //   LINE webhook (x-line-signature):
 //     - the first group the bot joins becomes the alert group (app_secret 'line_to')
@@ -75,6 +76,15 @@ const bar = (frac: number): Node => box([
   box([{ type: "filler" }], { width: Math.max(2, Math.round(frac * 100)) + "%", height: "8px", backgroundColor: C.teal, cornerRadius: "4px" }),
 ], { height: "8px", backgroundColor: C.track, cornerRadius: "4px" });
 const testTag = (test: boolean): Node | null => (test ? T("ข้อความทดสอบรูปแบบ · ไม่ใช่ข้อมูลจริง", { size: "xxs", color: C.mute, align: "center" }) : null);
+
+// this month's push-message quota (null when LINE does not say); used to show usage on the 17:30 card
+async function quota(): Promise<{ limit: number | null; used: number } | null> {
+  try {
+    const q = await lineApi("message/quota") as { type?: string; value?: number };
+    const c = await lineApi("message/quota/consumption") as { totalUsage?: number };
+    return { limit: q.type === "limited" ? q.value ?? null : null, used: c.totalUsage ?? 0 };
+  } catch (e) { console.warn("quota", e); return null; }
+}
 
 async function push(messages: unknown[]) {
   const to = env("LINE_TO") || (await setting("line_to"));
@@ -168,8 +178,9 @@ const MON = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "
 const WD = ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."];
 const ymd = (d: Date) => `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
 const thDay = (d: Date) => `${WD[d.getUTCDay()]} ${d.getUTCDate()} ${MON[d.getUTCMonth()]} ${String(d.getUTCFullYear() + 543).slice(2)}`;
-const unitLabel = (n: string) => (n.match(/^(Unit \d+)/)?.[1] ?? n.replace(/\s*\(.*\)$/, ""));
-const deptLabel = (n: string) => n.replace(/^Group /, "").replace(/\s*\(.*\)$/, "");
+// short names for cards: "CMNH · Chiangmai Nursing Homecare" -> "CMNH", "โมบาย · บัญชี การเงิน" -> "โมบาย"
+const unitLabel = (n: string) => (n.match(/^(Unit \d+)/)?.[1] ?? n.split(" · ")[0].replace(/\s*\(.*\)$/, ""));
+const deptLabel = (n: string) => n.split(" · ")[0].replace(/^Group /, "").replace(/\s*\(.*\)$/, "");
 type Miss = { u: string; d: string; id: string };
 const byUnit = (list: Miss[]) => {
   const m = new Map<string, string[]>();
@@ -215,6 +226,9 @@ async function reminder(test = false) {
   if (friday) lines.push(missW.length ? `\nรายงานประจำสัปดาห์ ยังไม่ส่ง ${missW.length} แผนก:\n${groupedText(missW)}` : "\n✅ รายงานประจำสัปดาห์ส่งครบ");
   if (monthlyDue && missM.length) lines.push(`\nรายงานประจำเดือน (${MON[prev.getUTCMonth()]}) ยังไม่ส่ง ${missM.length} แผนก:\n${groupedText(missM)}`);
   if (open) lines.push(`\n⚠ เรื่องด่วนรอ MD ตัดสิน: ${open} เรื่อง`);
+  const q = await quota(), near = !!(q && q.limit && q.used >= q.limit * 0.8);
+  const qLine = q ? `LINE เดือนนี้ใช้ไป ${q.used.toLocaleString()}${q.limit ? " / " + q.limit.toLocaleString() : ""} ข้อความ` : "";
+  if (near) lines.push(`\n⚠ โควตา LINE ใกล้หมด: ${qLine}`); else if (qLine) lines.push("\n" + qLine);
   // card
   const body: (Node | null)[] = [
     box([
@@ -235,6 +249,8 @@ async function reminder(test = false) {
   }
   if (monthlyDue && missM.length) body.push(sep(), T(`รายงานประจำเดือน ${MON[prev.getUTCMonth()]} ยังไม่ส่ง ${missM.length} แผนก`, { size: "sm", weight: "bold", color: C.amber }), ...groupedFlex(missM));
   if (open) body.push(note(`⚠ เรื่องด่วนรอ MD ตัดสิน ${open} เรื่อง`, C.red, C.redSoft));
+  if (near) body.push(note(`⚠ โควตา LINE ใกล้หมด · ${qLine} · ถ้าหมด แจ้งเตือนจะหยุดจนถึงต้นเดือน`, C.amber, C.amberSoft));
+  else if (qLine) body.push(T(qLine, { size: "xxs", color: C.mute, align: "center" }));
   body.push(testTag(test));
   const group: Card = {
     alt: missD.length ? `⏰ รายงานประจำวัน ส่งแล้ว ${sent}/${total} แผนก · ยังไม่ส่ง ${missD.length}` : `✅ ส่งรายงานประจำวันครบ ${total} แผนก`,
@@ -284,7 +300,7 @@ Deno.serve(async (req) => {
         await admin.from("dwp_line_sub").delete().eq("line_user_id", s.userId);
         await reply("หยุดรับแจ้งเตือนส่วนตัวแล้ว");
       } else if (s.type === "user" && text) {
-        await reply("พิมพ์ \"ผูก <รหัสแผนก>\" เพื่อรับแจ้งเตือนของแผนก เช่น ผูก hr\nดูรหัสแผนกได้ในแอป: แตะชื่อแผนกด้านบน\nพิมพ์ \"เลิก\" เพื่อหยุดรับ");
+        await reply("พิมพ์ \"ผูก <รหัสแผนก>\" เพื่อรับแจ้งเตือนของแผนก เช่น ผูก tql-cm\nดูรหัสแผนกได้ในแอป: แตะชื่อแผนกด้านบน\nพิมพ์ \"เลิก\" เพื่อหยุดรับ");
       }
     }
     return json({ ok: true });
@@ -293,6 +309,15 @@ Deno.serve(async (req) => {
   let b: Record<string, unknown>;
   try { b = JSON.parse(raw || "{}"); } catch { return json({ error: "bad json" }, 400); }
   try {
+    if (b.type === "quota") {
+      const want = env("CRON_SECRET") || (await setting("dwp_cron"));
+      if (!want || req.headers.get("x-cron-secret") !== want) return json({ error: "forbidden" }, 403);
+      const to = env("LINE_TO") || (await setting("line_to"));
+      let members: number | null = null;
+      if (to.startsWith("C")) { try { members = ((await lineApi(`group/${to}/members/count`)) as { count?: number }).count ?? null; } catch (_) { /* not allowed for this account */ } }
+      const { count } = await admin.from("dwp_line_sub").select("*", { count: "exact", head: true });
+      return json({ ok: true, quota: await quota(), groupMembers: members, personalSubscribers: count ?? 0 });
+    }
     if (b.type === "reminder" || b.type === "test") {
       const want = env("CRON_SECRET") || (await setting("dwp_cron"));
       if (!want || req.headers.get("x-cron-secret") !== want) return json({ error: "forbidden" }, 403);
