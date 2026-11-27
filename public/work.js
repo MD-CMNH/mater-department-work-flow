@@ -312,7 +312,7 @@ $('#edAddT').onclick=()=>{const d=edDept();if(!d)return;const t={id:nid('t'),r:'
  const ta=[...$('#edRows').querySelectorAll('.edrow')].find(r=>d.tasks[+r.dataset.i]===t);if(ta){ta.scrollIntoView({block:'center',behavior:'smooth'});ta.querySelector('textarea').focus()}};
 $('#edAddD').onclick=()=>{const nm=prompt('ชื่อแผนกใหม่');if(!nm)return;const d={id:nid('d'),name:nm.trim(),to:'MD',tasks:[]};edUnit().depts.push(d);dirty(true);edDepts(d.id)};
 $('#edDelD').onclick=()=>{const u=edUnit(),d=edDept();if(!d||!confirm('ลบแผนก “'+d.name+'” และงานทั้งหมดของแผนกนี้?\n(ข้อมูลที่ติ๊กไว้ยังเก็บอยู่ในฐานข้อมูล แต่จะไม่แสดง)'))return;u.depts.splice(u.depts.indexOf(d),1);dirty(true);edDepts()};
-$('#edReset').onclick=()=>{if(!confirm('คืนรายการงานทั้งหมดตามเอกสาร Master Department Work Plan ต้นฉบับ?\nงานที่เพิ่มเองจะหายหลังกดบันทึก'))return;ED=clone(DEFAULT);dirty(true);openEdit()};
+$('#edReset').onclick=()=>{if(!confirm('คืนรายการงานทั้งหมดตามผังงานที่ตกลงไว้ (27 พ.ย. 2569)?\nงานที่เพิ่มเองจะหายหลังกดบันทึก'))return;ED=clone(DEFAULT);dirty(true);openEdit()};
 $('#edSave').onclick=async()=>{
  for(const u of ED)for(const d of u.depts){if(!d.name.trim()){toast('กรอกชื่อแผนกให้ครบ',1);$('#edU').value=u.unit;edDepts(d.id);return}
   d.name=d.name.trim();d.to=(d.to||'').trim()||'MD';d.tasks=d.tasks.filter(t=>(t.t||'').trim()).map(t=>({id:t.id,r:t.r,t:t.t.trim(),e:(t.e||'').trim()}))}
