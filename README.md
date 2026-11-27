@@ -35,7 +35,7 @@ npx supabase db push            # สร้างตาราง + RLS
 insert into public.allowed_users (email, role) values ('someone@example.com', 'editor');
 ```
 
-ใน Supabase Dashboard → Authentication → URL Configuration ใส่ URL ของหน้าเว็บ `https://md-cmnh.github.io/YEARS-PLAN/` เป็น Site URL และ Redirect URL
+ใน Supabase Dashboard → Authentication → URL Configuration ใส่ URL ของหน้าเว็บ `https://md-cmnh.github.io/mater-department-work-flow/` เป็น Site URL และ Redirect URL
 
 ### 2. GitHub Pages
 
@@ -78,7 +78,7 @@ LINE Notify ปิดให้บริการไปแล้ว ระบบ�
 1. สร้าง LINE Official Account แล้วเปิดใช้ Messaging API ที่ [LINE Developers](https://developers.line.biz/) จากนั้นเก็บ **Channel access token** และ **Channel secret** ไว้
 2. ตั้ง secrets แล้ว deploy:
    ```bash
-   npx supabase secrets set LINE_CHANNEL_ACCESS_TOKEN=... LINE_CHANNEL_SECRET=... CRON_SECRET=<สุ่มยาว ๆ> SITE_URL=https://md-cmnh.github.io/YEARS-PLAN/work.html
+   npx supabase secrets set LINE_CHANNEL_ACCESS_TOKEN=... LINE_CHANNEL_SECRET=... CRON_SECRET=<สุ่มยาว ๆ> SITE_URL=https://md-cmnh.github.io/mater-department-work-flow/work.html
    npx supabase functions deploy line-notify --no-verify-jwt
    ```
 3. ตั้งค่าผู้รับข้อความ (ถ้าไม่ตั้ง ระบบจะ broadcast ไปยังทุกคนที่เพิ่มเพื่อนบัญชี OA):
