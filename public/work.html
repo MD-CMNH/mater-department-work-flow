@@ -87,15 +87,64 @@ h3{font:700 16px Trirong,Georgia,serif;color:#20392F;margin:18px 0 8px}
 #toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#1F4D3E;color:#fff;padding:8px 16px;border-radius:8px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
 #toast.on{opacity:1}#toast.err{background:var(--bad)}
 .empty{padding:14px;color:var(--mute);font-size:14px}
+
+/* app / PWA */
+#install{font:inherit;font-size:12px;cursor:pointer;color:#1F4D3E;background:var(--brass);border:0;border-radius:99px;padding:3px 10px;white-space:nowrap;display:none}
+#install.on{display:inline-block}
+.exec-only{display:none!important}html.lvl-exec .exec-only{display:inline-block!important}html.lvl-exec section.exec-only{display:none!important}html.lvl-exec section.exec-only.on{display:block!important}
+nav{overflow-x:auto;scrollbar-width:none}nav button{flex:0 0 auto}
+#offline{display:none;background:#F8E1E1;color:var(--bad);text-align:center;font-size:13px;padding:4px}html.off #offline{display:block}
+.ios-hint{background:#FFFDF7;border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:14px;display:none}
+.ios-hint.on{display:block}.ios-hint button{float:right;font:inherit;border:0;background:none;cursor:pointer;color:var(--mute)}
+/* monthly summary */
+.btn{font:inherit;font-size:13.5px;cursor:pointer;border-radius:8px;padding:7px 14px;border:1px solid #C9BA97;background:#fff;color:var(--ink);white-space:nowrap}
+.btn.pri{font-weight:700;border-color:#163A2F;color:#F6EBCB;background:linear-gradient(#2F6B57,#1F4D3E)}
+.btn.bad{color:var(--bad);border-color:#E0A3A3}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.chart{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.chart h4{margin:0 0 2px;font:700 15px Trirong,Georgia,serif;color:#20392F}
+.chart p{margin:0 0 8px;font-size:12.5px;color:var(--mute)}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart svg text{font-family:"IBM Plex Sans Thai Looped",sans-serif;fill:var(--mute);font-size:11px}
+.chart svg text.v{fill:var(--ink);font-weight:600}
+.chart svg .hit{fill:transparent;cursor:default}
+.chart svg g.row:hover .bar{fill:#1F4D3E}
+@media(max-width:800px){.charts{grid-template-columns:1fr}}
+#tip{position:fixed;z-index:20;pointer-events:none;background:#20392F;color:#fff;font-size:12.5px;padding:6px 9px;border-radius:6px;max-width:260px;opacity:0;transition:opacity .1s;white-space:pre-line}
+#tip.on{opacity:1}
+.sumhead{display:none}
+/* editor */
+.edrow{display:grid;grid-template-columns:110px 1fr 1fr auto;gap:6px;padding:8px 14px;border-top:1px solid #EEE5D2;align-items:start}
+.edrow:first-child{border-top:0}
+.edrow .mv{display:flex;gap:4px}
+.edrow .mv button{font:inherit;font-size:13px;cursor:pointer;border-radius:6px;padding:5px 8px;border:1px solid #C9BA97;background:#fff}
+.edrow .mv button.del{color:var(--bad)}
+.edhead{font-size:12px;color:var(--mute);font-weight:600;background:#F7F0DF}
+.edfoot{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px;border-top:2px solid var(--line);background:#FBF7EC;align-items:center}
+.dirty{color:var(--warn);font-weight:600;font-size:13px}
+@media(max-width:700px){.edrow{grid-template-columns:1fr}.edhead{display:none}}
+@media print{header,nav,.bar,.noprint,#toast,#install{display:none!important}body{background:#fff;font-size:12px}main{padding:0;max-width:none}
+ section{display:none!important}section.on{display:block!important}.sumhead{display:block;font:700 18px Trirong,Georgia,serif;margin-bottom:8px}
+ .chart,.utab,.stat{break-inside:avoid}.charts{grid-template-columns:1fr 1fr}}
 </style>
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#1F4D3E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="แผนงานแผนก">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
 </head>
 <body>
+<div id="offline">ออฟไลน์อยู่ — ดูหน้าได้ แต่บันทึกงานไม่ได้จนกว่าจะต่อเน็ต</div>
 <header>
  <div class="hrow"><h1><a href="./">CMNH แผนงานแผนก</a><small>Department Work Plan · Daily / Weekly / Monthly</small></h1>
-  <span class="hright"><a class="back" href="./">← แผนงานปี 2570</a></span></div>
- <nav><button data-v="me" class="on">งานของแผนก</button><button data-v="md">ภาพรวม MD</button></nav>
+  <span class="hright"><button id="install" title="ติดตั้งเป็นแอปบนเครื่องนี้">⬇ ติดตั้งแอป</button><a class="back" href="./">← แผนงานปี 2570</a></span></div>
+ <nav><button data-v="me" class="on">งานของแผนก</button><button data-v="md">ภาพรวม MD</button><button data-v="sum">สรุปรายเดือน</button><button data-v="edit" class="exec-only">จัดการงาน</button></nav>
 </header>
 <main>
+<div class="ios-hint" id="iosHint"><button aria-label="ปิด">✕</button>ติดตั้งเป็นแอปบน iPhone/iPad: กดปุ่ม <b>แชร์</b> (สี่เหลี่ยมมีลูกศรขึ้น) ใน Safari แล้วเลือก <b>“เพิ่มไปยังหน้าจอโฮม”</b></div>
 <section id="me" class="on">
  <div class="bar">
   <label>หน่วย<select id="selU"></select></label>
@@ -116,125 +165,40 @@ h3{font:700 16px Trirong,Georgia,serif;color:#20392F;margin:18px 0 8px}
  <h3>เรื่องที่ต้องรายงานหัวหน้า และงานที่ทำไม่ได้ (7 วันล่าสุด)</h3>
  <div class="issues" id="mdIss"></div>
 </section>
+<section id="sum">
+ <div class="bar">
+  <label style="flex:0 1 170px">เดือน<input id="sumM" type="month"></label>
+  <label>หน่วย<select id="sumU"></select></label>
+  <span style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="sumPrint">🖨 พิมพ์ / PDF</button><button class="btn" id="sumCopy">คัดลอกสรุป</button><button class="btn pri" id="sumLine" hidden>ส่งสรุปเข้า LINE</button></span>
+ </div>
+ <div class="sumhead" id="sumTitle"></div>
+ <div class="stats" id="sumStats"></div>
+ <div class="charts" id="sumCharts"></div>
+ <div class="scroll"><table class="utab" id="sumTab"></table></div>
+ <p class="note">% งานที่ทำแล้ว = งานที่ติ๊ก “ทำแล้ว” ÷ งานทั้งหมดที่ควรทำในเดือน (Daily × จำนวนวัน, Weekly × จำนวนสัปดาห์ที่วันจันทร์อยู่ในเดือนนี้, Monthly × 1) นับถึงวันนี้ถ้าเป็นเดือนปัจจุบัน · ใช้รายการงานปัจจุบัน งานที่ลบไปแล้วจะไม่ถูกนับ</p>
+</section>
+<section id="edit" class="exec-only">
+ <div class="bar">
+  <label>หน่วย<select id="edU"></select></label>
+  <label>แผนก<select id="edD"></select></label>
+  <span style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="edAddD">+ เพิ่มแผนก</button><button class="btn bad" id="edDelD">ลบแผนกนี้</button></span>
+ </div>
+ <div class="bar">
+  <label>ชื่อแผนก<input id="edName"></label>
+  <label style="flex:0 1 200px">รายงานถึง<input id="edTo" placeholder="เช่น MD, ผอ.หน่วย"></label>
+  <label style="flex:0 1 200px">หน่วยเริ่มใช้จริง (เว้นว่าง = ใช้แล้ว)<input id="edStart" type="month"></label>
+ </div>
+ <div class="pcard"><div class="edrow edhead"><span>รอบ</span><span>งาน</span><span>ผลลัพธ์ที่ต้องได้</span><span></span></div><div id="edRows"></div>
+  <div class="edfoot"><button class="btn" id="edAddT">+ เพิ่มงาน</button><span style="flex:1"></span><span class="dirty" id="edDirty"></span>
+   <button class="btn" id="edReset">คืนค่าตามเอกสารต้นฉบับ</button><button class="btn pri" id="edSave">บันทึกรายการงาน</button></div></div>
+ <p class="note">การแก้ไขมีผลกับทุกคนทันทีหลังบันทึก · งานที่ติ๊กไว้แล้วยังอยู่ครบเพราะแต่ละงานมีรหัสของตัวเอง · ลบงานแล้วประวัติของงานนั้นจะไม่แสดงในสรุป</p>
+</section>
 </main>
-<div id="toast"></div>
+<div id="toast"></div><div id="tip"></div>
 <script src="./config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./supabase-bridge.js"></script>
 <script src="./dwp-plan.js"></script>
-<script>
-(function(){
-const $=s=>document.querySelector(s),PLAN=window.DWP_PLAN;
-const DEPT={};PLAN.forEach(u=>u.depts.forEach(d=>DEPT[d.id]=Object.assign({unit:u},d)));
-const RN={D:'วันนี้ · Daily',W:'สัปดาห์นี้ · Weekly',M:'เดือนนี้ · Monthly'},RP={D:'Daily Report',W:'Weekly Report',M:'Monthly Performance Report'};
-const MON=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const pad=n=>String(n).padStart(2,'0');
-const ymd=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
-const parse=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
-const th=d=>d.getDate()+' '+MON[d.getMonth()]+' '+String(d.getFullYear()+543).slice(2);
-const monday=d=>{const x=new Date(d);x.setDate(x.getDate()-((x.getDay()+6)%7));return x};
-// one record per department per month; a week lives in the month of its Monday
-const keys=d=>{const mo=monday(d),mk=ymd(d).slice(0,7);return {D:{doc:mk,p:ymd(d)},W:{doc:ymd(mo).slice(0,7),p:'W'+ymd(mo)},M:{doc:mk,p:'M'+mk}}};
-const docKey=(dept,mk)=>'dwp:'+dept+':'+mk;
-let sb=null,cache={};
-function toast(t,err){const e=$('#toast');e.textContent=t;e.className='on'+(err?' err':'');clearTimeout(toast.t);toast.t=setTimeout(()=>e.className='',err?5000:1600)}
-async function load(k){const {data,error}=await sb.from('shared_state').select('v').eq('key',k).maybeSingle();if(error)throw error;return cache[k]=(data&&data.v)||{}}
-// read, change, write the latest copy so two people in one department do not overwrite each other
-async function save(k,fn){try{const v=await load(k);fn(v);const {error}=await sb.from('shared_state').upsert({key:k,v,at:Date.now()});if(error)throw error;cache[k]=v;toast('บันทึกแล้ว');return v}
- catch(e){toast('บันทึกไม่สำเร็จ: '+(e.message||e),1);throw e}}
-const entry=(v,p)=>(v[p]=v[p]||{t:{},rep:{}});
-
-// ---------- head view
-const LS={get:k=>localStorage.getItem('dwp.'+k)||'',set:(k,v)=>localStorage.setItem('dwp.'+k,v)};
-function fillUnits(sel,all){sel.innerHTML=(all?'<option value="">ทุกหน่วย</option>':'')+PLAN.map(u=>'<option value="'+u.unit+'">'+esc(u.name)+'</option>').join('')}
-fillUnits($('#selU'));fillUnits($('#mdU'),1);
-function fillDepts(){const u=PLAN.find(x=>x.unit===$('#selU').value)||PLAN[0];$('#selD').innerHTML=u.depts.map(d=>'<option value="'+d.id+'">'+esc(d.name)+'</option>').join('');
- if(DEPT[LS.get('dept')]&&DEPT[LS.get('dept')].unit===u)$('#selD').value=LS.get('dept')}
-const d0=DEPT[LS.get('dept')];$('#selU').value=d0?d0.unit.unit:PLAN[1].unit;fillDepts();
-$('#selN').value=LS.get('name');const today=ymd(new Date());$('#selDate').value=today;$('#mdDate').value=today;
-$('#selU').onchange=()=>{fillDepts();LS.set('dept',$('#selD').value);drawMe()};
-$('#selD').onchange=()=>{LS.set('dept',$('#selD').value);drawMe()};
-$('#selN').onchange=()=>LS.set('name',$('#selN').value.trim());
-$('#selDate').onchange=drawMe;
-async function drawMe(){const dept=DEPT[$('#selD').value],d=parse($('#selDate').value||today),K=keys(d),body=$('#meBody');
- body.innerHTML='<p class="empty">กำลังโหลด…</p>';
- const docs={};for(const r of 'DWM'){const k=docKey(dept.id,K[r].doc);if(!docs[k])docs[k]=await load(k).catch(()=>({}))}
- const mk=ymd(d).slice(0,7);let h='';
- if(dept.unit.start&&mk<dept.unit.start)h+='<div class="banner">หน่วยนี้เริ่มใช้จริง '+MON[+dept.unit.start.slice(5)-1]+' '+String(+dept.unit.start.slice(0,4)+543).slice(2)+' (เมื่อเปิดบริการ) · ตอนนี้ทดลองกรอกได้</div>';
- h+='<p class="note" style="margin:0 0 10px">รายงานถึง <b>'+esc(dept.to)+'</b> · Daily ก่อนส่งเวร / 17.00 น. · Weekly วันศุกร์ · Monthly ภายในวันที่ 5 ของเดือนถัดไป</p>';
- for(const r of 'DWM'){const tasks=dept.tasks.map((t,i)=>[t,i]).filter(([t])=>t[0]===r);if(!tasks.length)continue;
-  const k=docKey(dept.id,K[r].doc),e=(docs[k][K[r].p])||{t:{},rep:{}},done=tasks.filter(([,i])=>e.t[i]&&e.t[i].s).length;
-  const lab=r==='D'?th(d):r==='W'?th(monday(d))+' – '+th(new Date(monday(d).getTime()+6*864e5)):MON[d.getMonth()]+' '+(d.getFullYear()+543);
-  h+='<div class="pcard" data-r="'+r+'"><div class="phead"><h2>'+RN[r]+'</h2><span class="pk">'+lab+'</span><span class="prog'+(done===tasks.length?' full':'')+'">'+done+'/'+tasks.length+'</span></div>'
-   +tasks.map(([t,i])=>{const s=(e.t[i]||{});return '<div class="task s-'+(s.s||'')+'" data-i="'+i+'"><div><div class="tt">'+esc(t[1])+'</div><div class="te"><b>ผลลัพธ์ที่ต้องได้:</b> '+esc(t[2])+'</div></div>'
-    +'<div class="btns"><button class="ok'+(s.s==='ok'?' on':'')+'" data-s="ok">✓ ทำแล้ว</button><button class="no'+(s.s==='no'?' on':'')+'" data-s="no">✗ ทำไม่ได้</button></div>'
-    +'<div class="tn"><input value="'+esc(s.n)+'" placeholder="'+(s.s==='no'?'เหตุผลที่ทำไม่ได้ (ต้องกรอก)':'ผลที่ได้ / หมายเหตุ (ถ้ามี)')+'"></div></div>'}).join('')
-   +'<div class="rep"><label>ปัญหาที่พบ<textarea data-f="issue">'+esc(e.rep.issue)+'</textarea></label><label>งานที่ยังไม่เสร็จ / แผนแก้<textarea data-f="pending">'+esc(e.rep.pending)+'</textarea></label><label>เรื่องที่ต้องรายงานหัวหน้า<textarea data-f="report">'+esc(e.rep.report)+'</textarea></label>'
-   +'<div class="rfoot"><label class="esc"><input type="checkbox" data-f="esc"'+(e.rep.esc?' checked':'')+'> ด่วน ต้องให้ผู้บังคับบัญชา / MD ตัดสิน</label>'
-   +'<button class="send">'+(e.sub?'ส่ง '+RP[r]+' อีกครั้ง':'ส่ง '+RP[r])+'</button>'
-   +(e.sub?'<span class="sent">✓ ส่งแล้ว '+new Date(e.sub).toLocaleString('th-TH',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+' โดย '+esc(e.by)+'</span>':'')
-   +(e.rep.ack?'<span class="ack">MD: '+esc(e.rep.ack.n||'รับทราบ')+'</span>':'')+'</div></div></div>'}
- body.innerHTML=h;
- body.querySelectorAll('.pcard').forEach(card=>{const r=card.dataset.r,k=docKey(dept.id,K[r].doc),p=K[r].p;
-  const by=()=>$('#selN').value.trim()||'(ไม่ระบุชื่อ)';
-  card.querySelectorAll('.task').forEach(row=>{const i=row.dataset.i,inp=row.querySelector('.tn input');
-   row.querySelectorAll('.btns button').forEach(b=>b.onclick=async()=>{const on=b.classList.contains('on');
-    await save(k,v=>{const e=entry(v,p);e.t[i]=Object.assign({},e.t[i],{s:on?'':b.dataset.s,by:by(),at:Date.now()})});drawMe()});
-   inp.onchange=()=>save(k,v=>{const e=entry(v,p);e.t[i]=Object.assign({},e.t[i],{n:inp.value.trim(),by:by(),at:Date.now()})})});
-  card.querySelectorAll('.rep [data-f]').forEach(f=>f.onchange=()=>save(k,v=>{const e=entry(v,p);e.rep[f.dataset.f]=f.type==='checkbox'?f.checked:f.value.trim()}));
-  card.querySelector('.send').onclick=async()=>{if(!$('#selN').value.trim()){toast('กรอกชื่อผู้บันทึกก่อนส่ง',1);$('#selN').focus();return}
-   const miss=[...card.querySelectorAll('.task')].filter(x=>x.classList.contains('s-no')&&!x.querySelector('.tn input').value.trim());
-   if(miss.length){toast('งานที่ทำไม่ได้ ต้องกรอกเหตุผลก่อนส่ง',1);miss[0].querySelector('input').focus();return}
-   const vals={};card.querySelectorAll('.rep [data-f]').forEach(f=>vals[f.dataset.f]=f.type==='checkbox'?f.checked:f.value.trim());
-   await save(k,v=>{const e=entry(v,p);Object.assign(e.rep,vals);e.sub=Date.now();e.by=by()});drawMe()}})}
-
-// ---------- MD dashboard
-$('#mdDate').onchange=drawMd;$('#mdU').onchange=drawMd;
-async function rows(months){const out={};for(const m of [...new Set(months)]){const {data,error}=await sb.from('shared_state').select('key,v').like('key','dwp:%:'+m);if(error)throw error;
- (data||[]).forEach(r=>{const [,dept,mk]=r.key.split(':');(out[dept]=out[dept]||{})[mk]=r.v||{}})}return out}
-async function drawMd(){const d=parse($('#mdDate').value||today),K=keys(d),uf=$('#mdU').value;
- const past=new Date(d.getTime()-6*864e5);let R;
- try{R=await rows([K.D.doc,K.W.doc,ymd(past).slice(0,7)])}catch(e){$('#mdTab').innerHTML='<tr><td class="empty">โหลดไม่สำเร็จ: '+esc(e.message)+'</td></tr>';return}
- const get=(id,r)=>((R[id]||{})[K[r].doc]||{})[K[r].p];
- const after5=ymd(d)<today||new Date().getHours()>=17;
- let sentD=0,act=0,escN=0,noN=0,h='<tr><th>แผนก</th><th class="c">วันนี้</th><th class="c">สัปดาห์นี้</th><th class="c">เดือนนี้</th><th class="c">ส่ง Daily เดือนนี้</th><th class="c">ต้องตัดสิน</th></tr>';
- const pill=(id,r)=>{const tasks=DEPT[id].tasks.filter(t=>t[0]===r);if(!tasks.length)return '<span class="note">–</span>';
-  const idx=DEPT[id].tasks.map((t,i)=>t[0]===r?i:-1).filter(i=>i>=0),e=get(id,r)||{t:{}},ok=idx.filter(i=>(e.t[i]||{}).s==='ok').length,no=idx.filter(i=>(e.t[i]||{}).s==='no').length,n=idx.length;
-  const c=no?'r':e.sub&&ok===n?'g':e.sub||ok?'a':(r==='D'&&after5?'r':'');
-  return '<span class="pill '+c+'" title="ทำแล้ว '+ok+' · ทำไม่ได้ '+no+' · '+(e.sub?'ส่งรายงานแล้ว':'ยังไม่ส่ง')+'">'+(e.sub?'✓ ':'')+ok+'/'+n+'</span>'};
- const iss=[];
- PLAN.forEach(u=>{if(uf&&u.unit!==uf)return;const live=!u.start||ymd(d).slice(0,7)>=u.start;
-  h+='<tr class="uh"><td colspan="6">'+esc(u.name)+(live?'':' <span class="note">(เริ่มใช้เมื่อเปิดบริการ)</span>')+'</td></tr>';
-  u.depts.forEach(dp=>{const eD=get(dp.id,'D')||{};if(live){act++;if(eD.sub)sentD++}
-   // monthly submission rate of Daily Reports up to the selected day
-   const mdoc=(R[dp.id]||{})[K.D.doc]||{};let s=0;for(let i=1;i<=d.getDate();i++){const p=K.D.doc+'-'+pad(i);if(mdoc[p]&&mdoc[p].sub)s++}
-   const rate=Math.round(s/d.getDate()*100),rc=rate>=90?'g':rate>=60?'a':s?'r':'';
-   // escalations and "could not do" in the last 7 days (+ this week's and month's reports)
-   let open=0;const docs=R[dp.id]||{};Object.entries(docs).forEach(([mk,v])=>Object.entries(v).forEach(([p,e])=>{if(!e||!e.rep)return;
-    const dt=p.startsWith('W')?parse(p.slice(1)):p.startsWith('M')?parse(p.slice(1)+'-01'):parse(p);
-    const inWin=p.startsWith('W')?p===K.W.p:p.startsWith('M')?p===K.M.p:(dt>=past&&dt<=d);if(!inWin)return;
-    if(e.rep.esc&&!e.rep.ack){open++}
-    if(e.rep.esc||e.rep.report)iss.push({kind:'esc',dt,p,mk,dept:dp,txt:e.rep.report||e.rep.issue||'(ไม่ได้ระบุรายละเอียด)',by:e.by,ack:e.rep.ack,urgent:!!e.rep.esc});
-    Object.entries(e.t||{}).forEach(([i,t])=>{if(t.s==='no'){noN++;iss.push({kind:'no',dt,p,mk,dept:dp,txt:(dp.tasks[i]||[])[1]+' — '+(t.n||'ไม่ได้ระบุเหตุผล'),by:t.by})}})}));
-   escN+=open;
-   h+='<tr><td><span class="dlink" data-id="'+dp.id+'">'+esc(dp.name)+'</span></td><td class="c">'+pill(dp.id,'D')+'</td><td class="c">'+pill(dp.id,'W')+'</td><td class="c">'+pill(dp.id,'M')+'</td><td class="c"><span class="pill '+rc+'">'+s+'/'+d.getDate()+' วัน</span></td><td class="c">'+(open?'<span class="pill r">⚠ '+open+'</span>':'<span class="note">–</span>')+'</td></tr>'})});
- $('#mdTab').innerHTML=h;
- $('#mdStats').innerHTML='<div class="stat"><b>'+sentD+'/'+act+'</b><span>แผนกที่ส่ง Daily Report '+th(d)+'</span></div><div class="stat"><b style="color:'+(escN?'var(--bad)':'inherit')+'">'+escN+'</b><span>เรื่องด่วนรอตัดสิน</span></div><div class="stat"><b>'+noN+'</b><span>งานที่ทำไม่ได้ (7 วัน)</span></div><div class="stat"><b>'+(act?Math.round(sentD/act*100):0)+'%</b><span>อัตราส่งรายงานวันนี้</span></div>';
- $('#mdTab').querySelectorAll('.dlink').forEach(a=>a.onclick=()=>{const dp=DEPT[a.dataset.id];$('#selU').value=dp.unit.unit;fillDepts();$('#selD').value=dp.id;$('#selDate').value=ymd(d);show('me');drawMe()});
- iss.sort((a,b)=>(b.urgent&&!b.ack)-(a.urgent&&!a.ack)||b.dt-a.dt);
- $('#mdIss').innerHTML=iss.length?iss.map((x,j)=>'<div class="iss"><span class="ik '+x.kind+'">'+(x.kind==='esc'?(x.urgent?'⚠ ด่วน':'รายงาน'):'ทำไม่ได้')+'</span><div><div>'+esc(x.txt)+'</div><div class="im">'+esc(x.dept.name)+' · '+(x.p.startsWith('W')?'สัปดาห์ '+th(x.dt):x.p.startsWith('M')?'เดือน '+MON[x.dt.getMonth()]:th(x.dt))+(x.by?' · '+esc(x.by):'')+'</div></div>'
-   +'<span class="im">'+(x.ack?'✓ '+esc(x.ack.n||'รับทราบ'):'')+'</span>'
-   +(x.kind==='esc'&&x.urgent&&!x.ack?'<div class="iack"><input placeholder="คำตัดสิน / คำสั่ง" data-j="'+j+'"><button data-j="'+j+'">บันทึกคำตัดสิน</button></div>':'')+'</div>').join(''):'<p class="empty">ไม่มีเรื่องค้างใน 7 วันล่าสุด</p>';
- $('#mdIss').querySelectorAll('button[data-j]').forEach(b=>b.onclick=async()=>{const x=iss[+b.dataset.j],n=$('#mdIss').querySelector('input[data-j="'+b.dataset.j+'"]').value.trim()||'รับทราบ';
-  await save(docKey(x.dept.id,x.mk),v=>{const e=entry(v,x.p);e.rep.ack={n,at:Date.now()}});drawMd()})}
-
-function show(v){document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===v));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));location.hash=v==='md'?'md':'';if(v==='md')drawMd()}
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>show(b.dataset.v));
-setInterval(()=>{if(!document.hidden&&$('#md').classList.contains('on'))drawMd()},60000);
-window.claude.use('db').then(()=>{sb=window.__sb;drawMe();if(location.hash==='#md')show('md')});
-window.DWP_APP={show,drawMe,drawMd};
-})();
-</script>
+<script src="./work.js"></script>
 </body>
 </html>

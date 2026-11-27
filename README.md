@@ -52,3 +52,39 @@ insert into public.allowed_users (email, role) values ('someone@example.com', 'e
 ```bash
 npx serve public
 ```
+
+## แอปแผนงานแผนก (`work.html`)
+
+หัวหน้าแผนกติ๊กงาน Daily / Weekly / Monthly แล้วส่งรายงาน ส่วน MD ติดตามภาพรวมได้จากหน้าเดียว
+
+- **งานของแผนก**: ติ๊ก "ทำแล้ว / ทำไม่ได้" และส่งรายงาน ถ้าติ๊ก "ด่วน" ระบบจะแจ้ง LINE (เมื่อเปิดใช้)
+- **ภาพรวม MD**: ดูสถานะของวันนี้ สัปดาห์นี้ และเดือนนี้ของทุกแผนก พร้อมบันทึกคำตัดสินเรื่องด่วน
+- **สรุปรายเดือน**: % งานที่ทำแล้วรายแผนก, กราฟจำนวนแผนกที่ส่ง Daily ในแต่ละวัน, ตารางส่ง Weekly/Monthly ทั้งหมดนี้พิมพ์เป็น PDF, คัดลอก หรือส่งเข้า LINE ได้
+- **จัดการงาน** (เห็นเฉพาะบัญชีผู้บริหาร): เพิ่ม แก้ ลบ หรือเรียงลำดับงาน และเพิ่มหรือลบแผนกได้ รายการงานเก็บใน `shared_state` คีย์ `dwp:plan` ถ้ายังไม่มีคีย์นี้ ระบบจะใช้ `public/dwp-plan.js` แทน งานแต่ละรายการมีรหัสถาวร การแก้ไขหรือเรียงใหม่จึงไม่ทำให้ข้อมูลที่ติ๊กไว้ไปตกอยู่กับงานอื่น
+- **ติดตั้งเป็นแอป (PWA)**: บน Android หรือ Chrome ให้กดปุ่ม "⬇ ติดตั้งแอป" ที่หัวหน้า บน iPhone ให้เปิดด้วย Safari แล้วเลือก แชร์ → "เพิ่มไปยังหน้าจอโฮม"
+
+Migration `20261127000006_dwp_plan_write_exec.sql` จำกัดให้เฉพาะบัญชีผู้บริหาร (`finance = true`) บันทึก `dwp:plan` ได้ ใช้งานด้วยคำสั่ง `npx supabase db push`
+
+### แจ้งเตือน LINE (LINE Messaging API)
+
+LINE Notify ปิดให้บริการไปแล้ว ระบบนี้จึงใช้ LINE Official Account ผ่าน Edge Function `supabase/functions/line-notify`
+
+1. สร้าง LINE Official Account แล้วเปิดใช้ Messaging API ที่ [LINE Developers](https://developers.line.biz/) จากนั้นเก็บ **Channel access token** และ **Channel secret** ไว้
+2. ตั้ง secrets แล้ว deploy:
+   ```bash
+   npx supabase secrets set LINE_CHANNEL_ACCESS_TOKEN=... LINE_CHANNEL_SECRET=... CRON_SECRET=<สุ่มยาว ๆ> SITE_URL=https://md-cmnh.github.io/YEARS-PLAN/work.html
+   npx supabase functions deploy line-notify --no-verify-jwt
+   ```
+3. ตั้งค่าผู้รับข้อความ (ถ้าไม่ตั้ง ระบบจะ broadcast ไปยังทุกคนที่เพิ่มเพื่อนบัญชี OA):
+   ใส่ Webhook URL `https://<ref>.supabase.co/functions/v1/line-notify` ใน LINE Developers แล้วเชิญบอทเข้ากลุ่ม LINE ของผู้บริหาร บอทจะตอบ ID ของกลุ่มกลับมา (หรือพิมพ์ `id` ในกลุ่มก็ได้) จากนั้นตั้ง `npx supabase secrets set LINE_TO=<ID>`
+4. เปิดใช้ในหน้าเว็บ: ตั้ง `lineNotify: true` ใน `public/config.js` (หรือตั้ง Repository variable `LINE_NOTIFY=true`)
+5. เตือนแผนกที่ยังไม่ส่ง Daily ทุกวันเวลา 17:30 น. ให้เปิด extension `pg_cron` และ `pg_net` แล้วรันคำสั่งนี้ใน SQL Editor:
+   ```sql
+   select cron.schedule('dwp-line-reminder', '30 10 * * *', $$
+     select net.http_post(
+       url := 'https://<ref>.supabase.co/functions/v1/line-notify',
+       headers := jsonb_build_object('Content-Type','application/json','x-cron-secret','<CRON_SECRET>'),
+       body := '{"type":"reminder"}'::jsonb)
+   $$);
+   ```
+   (10:30 UTC = 17:30 น. เวลาไทย) การเตือนนี้อ่านรายชื่อแผนกจาก `dwp:plan` ซึ่งระบบจะบันทึกให้เองเมื่อเปิดแอปด้วยบัญชีผู้บริหารหลังเปิดใช้ LINE
