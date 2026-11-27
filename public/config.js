@@ -8,5 +8,5 @@ window.APP_CONFIG = {
   // Staff account: sees the plan, SOPs and KPI but not the real finance figures.
   staffEmail: "staff@years-plan.local",
   // LINE alerts for the Work Plan app: set to true once the line-notify Edge Function is deployed (see README).
-  lineNotify: false,
+  lineNotify: true,
 };
