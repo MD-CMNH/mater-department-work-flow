@@ -31,11 +31,12 @@ const send = (text: string) => {
   return env("LINE_TO") ? lineApi("push", { to: env("LINE_TO"), messages }) : lineApi("broadcast", { messages });
 };
 
-// signed-in user who is in allowed_users (editor); exec = finance access
+// signed-in user: anonymous Work Plan visitor, or in allowed_users (editor); exec = finance access
 async function caller(req: Request) {
   const jwt = (req.headers.get("Authorization") ?? "").replace(/^Bearer\s+/i, "");
   if (!jwt) return null;
   const { data } = await admin.auth.getUser(jwt);
+  if (data?.user?.is_anonymous) return { exec: false }; // Work Plan visitor without password: may send urgent reports
   const email = data?.user?.email?.toLowerCase();
   if (!email) return null;
   const { data: u } = await admin.from("allowed_users").select("role,finance").eq("email", email).maybeSingle();

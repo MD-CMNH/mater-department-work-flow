@@ -91,6 +91,7 @@ h3{font:700 16px Trirong,Georgia,serif;color:#20392F;margin:18px 0 8px}
 /* app / PWA */
 #install{font:inherit;font-size:12px;cursor:pointer;color:#1F4D3E;background:var(--brass);border:0;border-radius:99px;padding:3px 10px;white-space:nowrap;display:none}
 #install.on{display:inline-block}
+html.guest .back{display:none}
 .exec-only{display:none!important}html.lvl-exec .exec-only{display:inline-block!important}html.lvl-exec section.exec-only{display:none!important}html.lvl-exec section.exec-only.on{display:block!important}
 nav{overflow-x:auto;scrollbar-width:none}nav button{flex:0 0 auto}
 #offline{display:none;background:#F8E1E1;color:var(--bad);text-align:center;font-size:13px;padding:4px}html.off #offline{display:block}
@@ -196,6 +197,7 @@ nav{overflow-x:auto;scrollbar-width:none}nav button{flex:0 0 auto}
 </main>
 <div id="toast"></div><div id="tip"></div>
 <script src="./config.js"></script>
+<script>window.APP_GUEST=true</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./supabase-bridge.js"></script>
 <script src="./dwp-plan.js"></script>
