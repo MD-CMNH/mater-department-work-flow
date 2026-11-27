@@ -8,12 +8,19 @@
   const authReady = new Promise((r) => (resolveAuth = r));
 
   document.documentElement.classList.add("locked");
+  // Pages that set window.APP_GUEST (the Work Plan app) open without a password: the visitor is signed in
+  // anonymously and the database lets such users reach only the Work Plan records. "noGuest" = the
+  // executive asked for the password box instead.
+  const guestPage = !!window.APP_GUEST && !sessionStorage.getItem("noGuest");
+  let triedGuest = false;
+  if (guestPage) document.documentElement.classList.add("guesting");
   const css = document.createElement("style");
   css.textContent = `
     html.locked header, html.locked main { display: none !important; }
     #gate { position: fixed; inset: 0; z-index: 50; display: none; align-items: center; justify-content: center; padding: 16px;
       background: radial-gradient(ellipse at 25% -20%, #3A7A63 0%, #24584A 45%, #173D31 100%); }
     html.locked #gate { display: flex; }
+    html.guesting #gate form { display: none; }
     #gate form { width: 100%; max-width: 380px; background: linear-gradient(#FFFDF7, #F7F1E3); border: 1px solid #D8CBAE;
       border-radius: 10px; padding: 26px 24px; box-shadow: 0 20px 50px rgba(0,0,0,.45); font-family: "IBM Plex Sans Thai Looped", "Sarabun", sans-serif; color: #2B2416; }
     #gate h1 { margin: 0 0 4px; font-family: "Trirong", Georgia, serif; font-size: 20px; color: #20392F; }
@@ -24,8 +31,9 @@
     #gate .err { color: #A4161A; min-height: 1.3em; margin: 10px 0 0; font-size: 14px; }
     .lvl:empty { display: none; } .lvl { font-size: 11.5px; color: #F3EBD6; opacity: .85; white-space: nowrap; flex: 0 0 auto; }
     @media (max-width: 640px) { .lvl { display: none; } }
-    #logout { font: inherit; font-size: 12px; cursor: pointer; color: #F3EBD6; background: none; border: 1px solid rgba(243,235,214,.5); border-radius: 99px; padding: 3px 10px; white-space: nowrap; flex: 0 0 auto; }
-    @media (max-width: 640px) { #logout { font-size: 11px; padding: 2px 8px; } #logout .lg-long { display: none; } }`;
+    html.guest #logout, html:not(.guest) #execLogin { display: none; }
+    #logout, #execLogin { font: inherit; font-size: 12px; cursor: pointer; color: #F3EBD6; background: none; border: 1px solid rgba(243,235,214,.5); border-radius: 99px; padding: 3px 10px; white-space: nowrap; flex: 0 0 auto; }
+    @media (max-width: 640px) { #logout, #execLogin { font-size: 11px; padding: 2px 8px; } #logout .lg-long, #execLogin .lg-long { display: none; } }`;
   document.head.appendChild(css);
 
   function buildGate() {
@@ -51,15 +59,22 @@
       const b = document.createElement("button");
       const lv = document.createElement("span"); lv.id = "lvl"; lv.className = "lvl"; lv.title = "ระดับการเข้าถึง"; hr.appendChild(lv);
       b.id = "logout"; b.title = "ออกจากระบบ"; b.innerHTML = 'ออก<span class="lg-long">จากระบบ</span>';
-      b.onclick = async () => { await sb.auth.signOut(); location.reload(); };
+      b.onclick = async () => { sessionStorage.removeItem("noGuest"); await sb.auth.signOut(); location.reload(); };
       hr.appendChild(b);
+      if (window.APP_GUEST) {
+        const x = document.createElement("button");
+        x.id = "execLogin"; x.title = "ใส่รหัสเพื่อเข้าเป็นผู้บริหาร"; x.innerHTML = 'เข้าสู่ระบบ<span class="lg-long">ผู้บริหาร</span>';
+        x.onclick = async () => { sessionStorage.setItem("noGuest", "1"); await sb.auth.signOut(); location.reload(); };
+        hr.appendChild(x);
+      }
     }
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", buildGate); else buildGate();
 
   sb.auth.onAuthStateChange((_ev, session) => {
     if (session) {
-      document.documentElement.classList.remove("locked");
+      document.documentElement.classList.remove("locked", "guesting");
+      document.documentElement.classList.toggle("guest", !!session.user.is_anonymous);
       // access level: finance=true sees real figures; the database enforces it, this only adjusts the UI
       sb.from("allowed_users").select("finance").maybeSingle().then(({ data }) => {
         window.__fin = !!(data && data.finance);
@@ -70,7 +85,16 @@
       });
       resolveAuth();
     }
-    else document.documentElement.classList.add("locked");
+    else {
+      document.documentElement.classList.add("locked");
+      if (guestPage && !triedGuest) {
+        triedGuest = true;
+        // defer: calling auth methods inside this callback can deadlock supabase-js
+        setTimeout(() => sb.auth.signInAnonymously().then(({ error }) => {
+          if (error) { console.warn("guest sign-in", error.message); document.documentElement.classList.remove("guesting"); }
+        }), 0);
+      } else document.documentElement.classList.remove("guesting");
+    }
   });
 
   // Minimal stand-in for the artifact db API the dashboard uses: db.doc('shared/<key>').set / .onSnapshot
