@@ -2,132 +2,10 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CMNH · แผนงานแผนก (Department Work Plan)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CMNH · แผนงานแผนก</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@400;500;600;700&family=Trirong:wght@600;700&display=swap" rel="stylesheet">
-<style>
-:root{--brand:#1F4D3E;--brand2:#2F6B57;--ink:#2B2416;--mute:#55493A;--line:#DDD0B4;--bg:#EFE8D8;--card:#FFFDF7;--good:#1E6B3A;--bad:#A4161A;--warn:#9A5B0B;--brass:#E9CF8E}
-*{box-sizing:border-box}
-body{margin:0;font-family:"IBM Plex Sans Thai Looped","Sarabun",sans-serif;color:var(--ink);background:var(--bg);font-size:15px;line-height:1.5}
-header{position:sticky;top:0;z-index:5;color:#F3EBD6;background:linear-gradient(#2D6453,#1F4D3E);padding:10px 16px 0;box-shadow:0 2px 8px rgba(0,0,0,.25)}
-.hrow{display:flex;align-items:center;gap:10px;max-width:1100px;margin:0 auto}
-header h1{margin:0;font:700 18px/1.3 Trirong,Georgia,serif;flex:1;min-width:0}
-header h1 a{color:inherit;text-decoration:none}
-header h1 small{font:400 12px "IBM Plex Sans Thai Looped",sans-serif;opacity:.8;display:block}
-.hright{display:flex;gap:8px;align-items:center}
-.back{color:#F3EBD6;font-size:12px;border:1px solid rgba(243,235,214,.5);border-radius:99px;padding:3px 10px;text-decoration:none;white-space:nowrap}
-nav{display:flex;gap:4px;max-width:1100px;margin:8px auto 0}
-nav button{font:inherit;font-size:14px;cursor:pointer;padding:8px 14px 7px;border-radius:9px 9px 0 0;color:#E9DFC6;background:#204E40;border:1px solid #12342A;border-bottom:0}
-nav button.on{color:var(--ink);font-weight:700;background:var(--bg);border-color:#CDBE9C}
-main{max-width:1100px;margin:0 auto;padding:16px 14px 80px}
-section{display:none}section.on{display:block}
-.bar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:end;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:14px}
-.bar label{display:flex;flex-direction:column;font-size:12.5px;color:var(--mute);gap:3px;flex:1 1 180px}
-select,input,textarea{font:inherit;font-size:14.5px;padding:7px 9px;border:1px solid #C9BA97;border-radius:7px;background:#fff;color:var(--ink);width:100%}
-textarea{min-height:56px;resize:vertical}
-.note{color:var(--mute);font-size:13px}
-.banner{background:#FBEFD9;border:1px solid #E5C78F;color:#6B4512;border-radius:8px;padding:8px 12px;margin-bottom:12px;font-size:14px}
-.pcard{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:14px;overflow:hidden}
-.phead{display:flex;align-items:center;gap:10px;padding:10px 14px;background:linear-gradient(#F7F0DF,#EFE4CB);border-bottom:1px solid var(--line)}
-.phead h2{margin:0;font:700 17px Trirong,Georgia,serif;color:#20392F;flex:1}
-.phead .pk{font-size:12.5px;color:var(--mute)}
-.prog{font-weight:700;font-size:14px;padding:2px 10px;border-radius:99px;background:#fff;border:1px solid var(--line)}
-.prog.full{background:#E3F1E6;border-color:#9CC9A8;color:var(--good)}
-.task{display:grid;grid-template-columns:1fr auto;gap:6px 10px;padding:10px 14px;border-top:1px solid #EEE5D2}
-.task:first-of-type{border-top:0}
-.task .tt{font-weight:600}
-.task .te{font-size:13px;color:var(--mute)}
-.task .te b{color:#20392F;font-weight:600}
-.task .btns{display:flex;gap:6px;align-self:start}
-.task .btns button{font:inherit;font-size:13.5px;cursor:pointer;border-radius:7px;padding:5px 10px;border:1px solid #C9BA97;background:#fff;white-space:nowrap}
-.task .btns button.ok.on{background:var(--good);border-color:var(--good);color:#fff}
-.task .btns button.no.on{background:var(--bad);border-color:var(--bad);color:#fff}
-.task .tn{grid-column:1/-1}
-.task .tn input{font-size:13.5px;padding:5px 8px}
-.task.s-no .tn input:placeholder-shown{border-color:var(--bad)}
-.rep{padding:12px 14px;border-top:2px solid var(--line);background:#FBF7EC;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.rep label{font-size:12.5px;color:var(--mute);display:flex;flex-direction:column;gap:3px}
-.rep .rfoot{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
-.rep .esc{display:flex;flex-direction:row;align-items:center;gap:6px;font-size:13.5px;color:var(--bad);font-weight:600}
-.rep .esc input{width:auto}
-.send{font:inherit;font-weight:700;cursor:pointer;padding:8px 18px;border-radius:8px;border:1px solid #163A2F;color:#F6EBCB;background:linear-gradient(#2F6B57,#1F4D3E)}
-.sent{font-size:13px;color:var(--good);font-weight:600}
-.ack{font-size:13px;color:#1F4D3E;background:#E8F0EA;border-radius:6px;padding:3px 8px}
-@media(max-width:700px){.rep{grid-template-columns:1fr}.task{grid-template-columns:1fr}.task .btns{justify-content:flex-start}}
-/* dashboard */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
-.stat b{display:block;font:700 24px/1.2 Trirong,Georgia,serif}
-.stat span{font-size:12.5px;color:var(--mute)}
-@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}}
-@media(max-width:640px){header h1 small{display:none}.bar label{flex-basis:140px}}
-.utab{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:16px;font-size:14px}
-.utab th,.utab td{padding:7px 10px;border-bottom:1px solid #EEE5D2;text-align:left;vertical-align:middle}
-.utab th{background:#EFE4CB;font-size:13px}
-.utab tr.uh td{background:#F7F0DF;font-weight:700;color:#20392F}
-.utab td.c{text-align:center;white-space:nowrap}
-.pill{display:inline-block;min-width:54px;text-align:center;padding:2px 8px;border-radius:99px;font-size:12.5px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--mute)}
-.pill.g{background:#E3F1E6;border-color:#9CC9A8;color:var(--good)}
-.pill.a{background:#FBEFD9;border-color:#E5C78F;color:var(--warn)}
-.pill.r{background:#F8E1E1;border-color:#E0A3A3;color:var(--bad)}
-.dlink{color:#1F4D3E;font-weight:600;cursor:pointer;text-decoration:underline dotted}
-.scroll{overflow-x:auto}
-.issues{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.iss{display:grid;grid-template-columns:110px 1fr auto;gap:4px 12px;padding:10px 14px;border-top:1px solid #EEE5D2}
-.iss:first-child{border-top:0}
-.iss .ik{font-size:12px;font-weight:700;padding:1px 8px;border-radius:99px;align-self:start;justify-self:start}
-.iss .ik.esc{background:#F8E1E1;color:var(--bad)}.iss .ik.no{background:#FBEFD9;color:var(--warn)}
-.iss .im{font-size:13px;color:var(--mute)}
-.iss .iack{grid-column:2/-1;display:flex;gap:6px}
-.iss .iack input{font-size:13px;padding:4px 8px}
-.iss .iack button{font:inherit;font-size:13px;cursor:pointer;border-radius:6px;padding:4px 10px;border:1px solid #163A2F;background:#1F4D3E;color:#fff;white-space:nowrap}
-@media(max-width:700px){.iss{grid-template-columns:1fr}.iss .iack{grid-column:1}}
-h3{font:700 16px Trirong,Georgia,serif;color:#20392F;margin:18px 0 8px}
-#toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#1F4D3E;color:#fff;padding:8px 16px;border-radius:8px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
-#toast.on{opacity:1}#toast.err{background:var(--bad)}
-.empty{padding:14px;color:var(--mute);font-size:14px}
-
-/* app / PWA */
-#install{font:inherit;font-size:12px;cursor:pointer;color:#1F4D3E;background:var(--brass);border:0;border-radius:99px;padding:3px 10px;white-space:nowrap;display:none}
-#install.on{display:inline-block}
-html.guest .back{display:none}
-.exec-only{display:none!important}html.lvl-exec .exec-only{display:inline-block!important}html.lvl-exec section.exec-only{display:none!important}html.lvl-exec section.exec-only.on{display:block!important}
-nav{overflow-x:auto;scrollbar-width:none}nav button{flex:0 0 auto}
-#offline{display:none;background:#F8E1E1;color:var(--bad);text-align:center;font-size:13px;padding:4px}html.off #offline{display:block}
-.ios-hint{background:#FFFDF7;border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:14px;display:none}
-.ios-hint.on{display:block}.ios-hint button{float:right;font:inherit;border:0;background:none;cursor:pointer;color:var(--mute)}
-/* monthly summary */
-.btn{font:inherit;font-size:13.5px;cursor:pointer;border-radius:8px;padding:7px 14px;border:1px solid #C9BA97;background:#fff;color:var(--ink);white-space:nowrap}
-.btn.pri{font-weight:700;border-color:#163A2F;color:#F6EBCB;background:linear-gradient(#2F6B57,#1F4D3E)}
-.btn.bad{color:var(--bad);border-color:#E0A3A3}
-.charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-.chart{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
-.chart h4{margin:0 0 2px;font:700 15px Trirong,Georgia,serif;color:#20392F}
-.chart p{margin:0 0 8px;font-size:12.5px;color:var(--mute)}
-.chart svg{display:block;width:100%;height:auto;overflow:visible}
-.chart svg text{font-family:"IBM Plex Sans Thai Looped",sans-serif;fill:var(--mute);font-size:11px}
-.chart svg text.v{fill:var(--ink);font-weight:600}
-.chart svg .hit{fill:transparent;cursor:default}
-.chart svg g.row:hover .bar{fill:#1F4D3E}
-@media(max-width:800px){.charts{grid-template-columns:1fr}}
-#tip{position:fixed;z-index:20;pointer-events:none;background:#20392F;color:#fff;font-size:12.5px;padding:6px 9px;border-radius:6px;max-width:260px;opacity:0;transition:opacity .1s;white-space:pre-line}
-#tip.on{opacity:1}
-.sumhead{display:none}
-/* editor */
-.edrow{display:grid;grid-template-columns:110px 1fr 1fr auto;gap:6px;padding:8px 14px;border-top:1px solid #EEE5D2;align-items:start}
-.edrow:first-child{border-top:0}
-.edrow .mv{display:flex;gap:4px}
-.edrow .mv button{font:inherit;font-size:13px;cursor:pointer;border-radius:6px;padding:5px 8px;border:1px solid #C9BA97;background:#fff}
-.edrow .mv button.del{color:var(--bad)}
-.edhead{font-size:12px;color:var(--mute);font-weight:600;background:#F7F0DF}
-.edfoot{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px;border-top:2px solid var(--line);background:#FBF7EC;align-items:center}
-.dirty{color:var(--warn);font-weight:600;font-size:13px}
-@media(max-width:700px){.edrow{grid-template-columns:1fr}.edhead{display:none}}
-@media print{header,nav,.bar,.noprint,#toast,#install{display:none!important}body{background:#fff;font-size:12px}main{padding:0;max-width:none}
- section{display:none!important}section.on{display:block!important}.sumhead{display:block;font:700 18px Trirong,Georgia,serif;margin-bottom:8px}
- .chart,.utab,.stat{break-inside:avoid}.charts{grid-template-columns:1fr 1fr}}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#1F4D3E">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -136,65 +14,339 @@ nav{overflow-x:auto;scrollbar-width:none}nav button{flex:0 0 auto}
 <meta name="apple-mobile-web-app-title" content="แผนงานแผนก">
 <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<style>
+:root{
+ --brand:#1F4D3E;--brand2:#2F6B57;--brand-soft:#E4EEE8;--brass:#C9A34E;--brass-soft:#F6EBCF;
+ --ink:#1C2621;--mute:#6A716B;--faint:#9AA19B;--line:#E7E2D6;--bg:#F5F2EB;--card:#FFFFFF;
+ --good:#1E7A45;--good-soft:#E2F3E8;--bad:#B3261E;--bad-soft:#FBE7E5;--warn:#9A5B0B;--warn-soft:#FBEFD9;
+ --r:18px;--r-s:12px;--sh:0 1px 2px rgba(28,38,33,.05),0 4px 16px rgba(28,38,33,.06);--sh-l:0 10px 40px rgba(28,38,33,.18);
+ --nav:64px;--safe:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;font-family:"IBM Plex Sans Thai","Sarabun",system-ui,sans-serif;color:var(--ink);background:var(--bg);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+select,input,textarea{font:inherit;font-size:15px;padding:11px 13px;border:1.5px solid var(--line);border-radius:var(--r-s);background:#FBFAF7;color:var(--ink);width:100%;outline:none;transition:border-color .15s,background .15s}
+select:focus,input:focus,textarea:focus{border-color:var(--brand2);background:#fff}
+textarea{min-height:72px;resize:vertical}
+.ico{width:22px;height:22px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* ---------- app bar */
+header{position:sticky;top:0;z-index:20;background:#1F4D3E;color:#F4EEDD;padding-top:env(safe-area-inset-top,0px)}
+.ab{display:flex;align-items:center;gap:10px;max-width:1100px;margin:0 auto;padding:10px 16px}
+.brand{display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none;flex:1;min-width:0}
+.brand img{width:34px;height:34px;border-radius:10px;box-shadow:0 0 0 1px rgba(255,255,255,.15)}
+.brand b{display:block;font-size:16.5px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.brand small{display:block;font-size:12px;opacity:.72;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hright{display:flex;gap:6px;align-items:center}
+.hright .back,#install{font-size:12.5px;color:#F4EEDD;border:1px solid rgba(244,238,221,.35);border-radius:99px;padding:5px 12px;text-decoration:none;white-space:nowrap;background:none}
+#install{display:none;background:var(--brass);color:#1C2621;border-color:var(--brass);font-weight:600}#install.on{display:inline-block}
+html.guest .back{display:none}
+/* tabs: top segmented on desktop, bottom nav on phones */
+nav.tabs{display:flex;gap:4px;max-width:1100px;margin:0 auto;padding:0 16px 10px}
+nav.tabs button{display:flex;align-items:center;gap:7px;border:0;background:rgba(255,255,255,.08);color:#DCE8E1;padding:8px 16px;border-radius:99px;font-size:14px;font-weight:500;white-space:nowrap;transition:background .15s}
+nav.tabs button .ico{width:18px;height:18px}
+nav.tabs button:hover{background:rgba(255,255,255,.14)}
+nav.tabs button.on{background:#fff;color:var(--brand);font-weight:700}
+.exec-only{display:none!important}
+html.lvl-exec nav.tabs button.exec-only{display:flex!important}
+html.lvl-exec section.exec-only.on{display:block!important}
+#offline{display:none;background:var(--bad);color:#fff;text-align:center;font-size:13px;padding:4px}html.off #offline{display:block}
+main{max-width:1100px;margin:0 auto;padding:18px 16px calc(110px + var(--safe))}
+section{display:none;animation:fade .2s ease}section.on{display:block}
+#me{max-width:760px;margin:0 auto}
+@media(min-width:761px){.sendbar .in{max-width:760px}}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media(max-width:760px){
+ .brand small{display:none}.hright .back{display:none}
+ nav.tabs{position:fixed;left:0;right:0;bottom:0;margin:0;max-width:none;padding:6px 6px calc(6px + var(--safe));gap:0;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);box-shadow:0 -1px 0 var(--line),0 -6px 24px rgba(28,38,33,.06);z-index:30}
+ nav.tabs button{flex:1;flex-direction:column;gap:2px;background:none;color:var(--faint);padding:6px 2px;border-radius:12px;font-size:11.5px}
+ nav.tabs button .ico{width:24px;height:24px}
+ nav.tabs button:hover{background:none}
+ nav.tabs button.on{background:none;color:var(--brand)}
+ nav.tabs button.on .ico{background:var(--brand-soft);border-radius:99px;padding:2px 14px;width:52px;box-sizing:content-box;margin:0 -14px}
+ main{padding:14px 12px calc(var(--nav) + 96px + var(--safe))}
+}
+/* ---------- building blocks */
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:14px;overflow:hidden}
+.cpad{padding:16px 18px}
+.row{display:flex;align-items:center;gap:10px}
+.grow{flex:1;min-width:0}
+.note{color:var(--mute);font-size:13px}
+.empty{color:var(--mute);text-align:center;padding:28px 14px;margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:14px;font-weight:600;border-radius:99px;padding:10px 18px;border:1.5px solid var(--line);background:#fff;color:var(--ink);white-space:nowrap;transition:transform .08s,background .15s}
+.btn:active{transform:scale(.97)}
+.btn .ico{width:18px;height:18px}
+.btn.pri{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.pri:hover{background:var(--brand2)}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--brand)}
+.btn.bad{color:var(--bad);border-color:#F1C9C5}
+.btn.sm{padding:6px 12px;font-size:13px}
+.btn:disabled{opacity:.45;cursor:default}
+.iconbtn{width:42px;height:42px;border-radius:99px;border:1.5px solid var(--line);background:#fff;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
+.iconbtn:active{transform:scale(.94)}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:99px;background:#F1EEE6;color:var(--mute);white-space:nowrap}
+.chip.g{background:var(--good-soft);color:var(--good)}.chip.a{background:var(--warn-soft);color:var(--warn)}.chip.r{background:var(--bad-soft);color:var(--bad)}.chip.b{background:var(--brand-soft);color:var(--brand)}
+.lbl{display:block;font-size:12.5px;font-weight:600;color:var(--mute);margin:0 0 5px}
+.field{margin-bottom:14px}
+h3.sh{font-size:15px;font-weight:700;margin:22px 4px 10px;display:flex;align-items:center;gap:8px}
+h3.sh .chip{font-weight:600}
+/* ---------- head view: hero */
+.hero{background:linear-gradient(135deg,#24574A 0%,#1F4D3E 55%,#183D31 100%);color:#F4EEDD;border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(201,163,78,.25),transparent 70%)}
+.deptbtn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);color:inherit;border-radius:14px;padding:10px 12px;position:relative;z-index:1}
+.deptbtn .av{width:40px;height:40px;border-radius:12px;background:var(--brass);color:#1C2621;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex:0 0 auto}
+.deptbtn b{display:block;font-size:16px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deptbtn small{display:block;font-size:12.5px;opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.herobody{display:flex;align-items:center;gap:16px;margin-top:16px;position:relative;z-index:1}
+.ring{width:92px;height:92px;flex:0 0 auto;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .rv{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+.ring .rv b{font-size:22px;font-weight:700}.ring .rv small{font-size:11px;opacity:.75}
+.datebar{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.datebar .iconbtn{width:36px;height:36px;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff}
+.datepick{position:relative;flex:1;text-align:center;font-weight:600;font-size:15px;background:rgba(255,255,255,.1);border-radius:99px;padding:6px 10px;cursor:pointer}
+.datepick input{position:absolute;inset:0;opacity:0;cursor:pointer;padding:0;border:0}
+.herometa{font-size:13px;opacity:.85}
+.herometa b{color:var(--brass)}
+.banner{display:flex;gap:10px;align-items:flex-start;background:var(--warn-soft);color:#6B4512;border-radius:var(--r-s);padding:10px 14px;margin-bottom:14px;font-size:14px}
+/* segmented control */
+.seg{display:flex;background:#EAE6DC;border-radius:14px;padding:4px;margin-bottom:14px;position:sticky;top:var(--segtop,66px);z-index:10}
+.seg button{flex:1;border:0;background:none;border-radius:10px;padding:9px 4px;font-size:14px;font-weight:600;color:var(--mute);display:flex;flex-direction:column;align-items:center;line-height:1.25;transition:background .15s,color .15s}
+.seg button small{font-size:11.5px;font-weight:500;opacity:.85}
+.seg button.on{background:#fff;color:var(--brand);box-shadow:0 1px 4px rgba(28,38,33,.12)}
+.seg button.full small{color:var(--good);font-weight:700}
+
+/* task cards */
+.tlist{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.task{background:var(--card);border-radius:16px;box-shadow:var(--sh);padding:14px 14px 12px;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;border:1.5px solid transparent;transition:border-color .15s,background .15s}
+.task.s-ok{border-color:#BFE0CB;background:#FAFEFB}
+.task.s-no{border-color:#F1C9C5;background:#FFFBFA}
+.chk{width:34px;height:34px;border-radius:50%;border:2px solid #CFC8B8;background:#fff;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .15s}
+.chk .ico{width:18px;height:18px;stroke-width:3;opacity:0;transform:scale(.6);transition:all .15s}
+.task.s-ok .chk{background:var(--good);border-color:var(--good);color:#fff}
+.task.s-ok .chk .ico{opacity:1;transform:none}
+.task.s-no .chk{background:var(--bad);border-color:var(--bad);color:#fff}
+.task.s-no .chk .ico{opacity:1;transform:none}
+.chk:active{transform:scale(.9)}
+.tt{font-weight:600;font-size:15px;line-height:1.45}
+.task.s-ok .tt{color:#3E5B4B}
+.te{font-size:13px;color:var(--mute);margin-top:2px;display:flex;gap:6px}
+.te .ico{width:15px;height:15px;margin-top:2px;color:var(--brass)}
+.tact{grid-column:2;display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center}
+.tact .btn{padding:5px 12px;font-size:12.5px}
+.tact .no.on{background:var(--bad);border-color:var(--bad);color:#fff}
+.tmeta{font-size:12px;color:var(--faint)}
+.tn{grid-column:2;margin-top:8px;display:none}
+.task.show-n .tn{display:block}
+.tn input{font-size:14px;padding:9px 12px}
+.task.s-no .tn input:placeholder-shown{border-color:#E8A9A3;background:#FFF6F5}
+/* report card */
+.rep{padding:4px 0}
+.rep summary{list-style:none;display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;font-weight:700}
+.rep summary::-webkit-details-marker{display:none}
+.rep summary .chev{margin-left:auto;transition:transform .2s;color:var(--faint)}
+.rep[open] summary .chev{transform:rotate(180deg)}
+.rep .rb{padding:0 18px 16px}
+.switch{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-s);background:var(--bad-soft);color:var(--bad);font-weight:600;font-size:14px;cursor:pointer}
+.switch input{appearance:none;width:46px;height:28px;border-radius:99px;background:#E3C7C4;position:relative;flex:0 0 auto;padding:0;border:0;cursor:pointer;transition:background .2s}
+.switch input:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .2s}
+.switch input:checked{background:var(--bad)}.switch input:checked:after{left:21px}
+.ack{display:flex;gap:8px;align-items:flex-start;background:var(--brand-soft);color:var(--brand);border-radius:var(--r-s);padding:10px 14px;font-size:14px;margin-bottom:14px}
+/* sticky send bar */
+.sendbar{position:fixed;left:0;right:0;bottom:0;z-index:25;padding:10px 16px calc(10px + var(--safe));background:linear-gradient(transparent,var(--bg) 30%);pointer-events:none}
+.sendbar .in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;background:#fff;border-radius:99px;padding:6px 6px 6px 18px;box-shadow:var(--sh-l);pointer-events:auto}
+.sendbar .st{flex:1;min-width:0;font-size:13px;color:var(--mute);line-height:1.3}
+.sendbar .st b{display:block;color:var(--ink);font-size:14px}
+.sendbar .st.ok b{color:var(--good)}
+.sendbar .btn{padding:12px 20px;font-size:15px}
+#me:not(.on)~.sendbar,.sendbar.hide{display:none}
+@media(max-width:760px){.sendbar{bottom:calc(var(--nav) + var(--safe));padding-bottom:8px}}
+/* bottom sheet */
+dialog.sheet{border:0;padding:0;margin:auto auto 0;width:100%;max-width:560px;border-radius:24px 24px 0 0;background:#fff;color:var(--ink);box-shadow:var(--sh-l);max-height:90vh}
+dialog.sheet::backdrop{background:rgba(20,30,25,.45);backdrop-filter:blur(2px)}
+dialog.sheet[open]{animation:up .22s ease}
+@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+.sheet .grab{width:40px;height:5px;border-radius:9px;background:#DDD7CA;margin:10px auto 4px}
+.sheet .sb{padding:8px 20px calc(20px + var(--safe))}
+.sheet h2{font-size:18px;margin:6px 0 16px}
+@media(min-width:761px){dialog.sheet{margin:auto;border-radius:24px}}
+/* ---------- MD + summary */
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.filters .datebar{margin:0;background:#fff;border-radius:99px;padding:4px;box-shadow:var(--sh);flex:0 1 300px}
+.filters .datebar .iconbtn{background:#F5F2EB;border:0;color:var(--ink)}
+.filters .datepick{background:none;color:var(--ink)}
+.filters select{flex:1 1 180px;width:auto;border-radius:99px;background:#fff;box-shadow:var(--sh);border-color:transparent;padding:10px 16px}
+.filters input[type=month]{flex:0 1 200px;width:auto;border-radius:99px;background:#fff;box-shadow:var(--sh);border-color:transparent;padding:9px 16px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.stat{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.stat .si{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:var(--brand-soft);color:var(--brand);margin-bottom:6px}
+.stat .si .ico{width:20px;height:20px}
+.stat.r .si{background:var(--bad-soft);color:var(--bad)}.stat.a .si{background:var(--warn-soft);color:var(--warn)}
+.stat b{font-size:26px;font-weight:700;line-height:1.15;letter-spacing:-.02em}
+.stat.r b{color:var(--bad)}
+.stat span{font-size:12.5px;color:var(--mute);line-height:1.35}
+@media(max-width:760px){.stats{grid-template-columns:1fr 1fr;gap:10px}.stat b{font-size:23px}}
+.ugroup{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:14px;overflow:hidden}
+.uhead{display:flex;align-items:center;gap:8px;padding:13px 18px;font-weight:700;font-size:14.5px;border-bottom:1px solid var(--line);background:#FCFBF8}
+.drow{display:grid;grid-template-columns:minmax(0,1.6fr) auto minmax(110px,1fr) 64px;gap:8px 14px;align-items:center;padding:12px 18px;border-top:1px solid #F1EDE4;cursor:pointer;transition:background .12s}
+.drow:first-of-type{border-top:0}
+.drow:hover{background:#FAF8F3}
+.drow .dn{font-weight:600;font-size:14.5px;line-height:1.35}
+.drow .dn small{display:block;font-weight:400;font-size:12px;color:var(--faint)}
+.dchips{display:flex;gap:6px}
+.dc{display:flex;flex-direction:column;align-items:center;min-width:46px;padding:4px 6px;border-radius:10px;background:#F4F1EA;font-size:12px;font-weight:700;color:var(--mute);line-height:1.2}
+.dc small{font-size:10px;font-weight:600;opacity:.75}
+.dc.g{background:var(--good-soft);color:var(--good)}.dc.a{background:var(--warn-soft);color:var(--warn)}.dc.r{background:var(--bad-soft);color:var(--bad)}.dc.n{background:none;color:var(--faint)}
+.meter{height:8px;border-radius:99px;background:#EEEAE0;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:99px;background:var(--brand2)}
+.meter.g i{background:var(--good)}.meter.a i{background:#D39434}.meter.r i{background:var(--bad)}
+.drate small{display:block;font-size:11.5px;color:var(--mute);margin-top:3px}
+.desc{text-align:right}
+@media(max-width:760px){.drow{grid-template-columns:1fr auto;padding:12px 14px}.drow .dchips{grid-column:1/-1;order:3}.drow .drate{grid-column:1/-1;order:4}.drow .desc{order:2}}
+.issues{display:flex;flex-direction:column;gap:10px}
+.iss{background:var(--card);border-radius:16px;box-shadow:var(--sh);padding:14px 16px;border-left:4px solid var(--warn)}
+.iss.esc{border-left-color:var(--bad)}.iss.done{border-left-color:var(--good)}
+.iss .it{font-weight:600;margin:6px 0 4px}
+.iss .im{font-size:12.5px;color:var(--mute)}
+.iss .iack{display:flex;gap:8px;margin-top:10px}
+.iss .iack input{padding:9px 12px;font-size:14px;border-radius:99px}
+.iss .ok{display:flex;gap:6px;align-items:center;color:var(--good);font-size:13.5px;font-weight:600;margin-top:8px}
+/* summary */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.chart{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:16px 18px}
+.chart h4{margin:0;font-size:15px;font-weight:700}
+.chart p{margin:2px 0 12px;font-size:12.5px;color:var(--mute)}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart svg text{font-family:"IBM Plex Sans Thai",sans-serif;fill:var(--mute);font-size:11px}
+.chart svg text.v{fill:var(--ink);font-weight:600}
+.chart svg .hit{fill:transparent}
+.chart svg g.row:hover .bar{fill:var(--brand)}
+@media(max-width:800px){.charts{grid-template-columns:1fr}}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.utab{width:100%;border-collapse:collapse;font-size:14px}
+.utab th,.utab td{padding:10px 14px;border-bottom:1px solid #F1EDE4;text-align:left;vertical-align:middle;white-space:nowrap}
+.utab td:first-child{white-space:normal;min-width:180px;font-weight:500}
+.utab th{font-size:12px;color:var(--mute);font-weight:600;background:#FCFBF8}
+.utab tr.uh td{background:#F7F4EC;font-weight:700;font-size:13px;color:var(--brand)}
+.utab td.c,.utab th.c{text-align:center}
+#tip{position:fixed;z-index:60;pointer-events:none;background:#1C2621;color:#fff;font-size:12.5px;padding:8px 11px;border-radius:10px;max-width:260px;opacity:0;transition:opacity .1s;white-space:pre-line;box-shadow:var(--sh-l)}
+#tip.on{opacity:1}
+.sumhead{display:none}
+/* editor */
+.edrow{display:grid;grid-template-columns:120px 1fr 1fr auto;gap:8px;padding:12px 16px;border-top:1px solid #F1EDE4;align-items:start}
+.edrow:first-child{border-top:0}
+.edrow textarea{min-height:48px;font-size:14px;padding:9px 12px}
+.edrow select{font-size:14px;padding:9px 10px}
+.edrow .mv{display:flex;gap:4px}
+.edrow .mv .iconbtn{width:36px;height:36px}
+.edrow .mv .del{color:var(--bad)}
+.edgroup{font-size:12px;font-weight:700;color:var(--brand);padding:10px 16px 4px;background:#FCFBF8;border-top:1px solid #F1EDE4}
+.edgroup:first-child{border-top:0}
+.edfoot{display:flex;flex-wrap:wrap;gap:8px;padding:14px 16px;border-top:1px solid var(--line);align-items:center}
+.dirty{color:var(--warn);font-weight:600;font-size:13px}
+.grid3{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px}
+@media(max-width:760px){.edrow{grid-template-columns:1fr auto}.edrow textarea{grid-column:1/-1}.edrow .mv{grid-row:1;grid-column:2}.grid3{grid-template-columns:1fr}}
+.ios-hint{display:none;align-items:flex-start;gap:10px;background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:12px 14px;margin-bottom:14px;font-size:14px}
+.ios-hint.on{display:flex}
+/* toast + skeleton */
+#toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top,0px));transform:translate(-50%,-20px);background:#1C2621;color:#fff;padding:10px 18px;border-radius:99px;font-size:14px;font-weight:500;opacity:0;transition:all .2s;pointer-events:none;z-index:70;box-shadow:var(--sh-l);display:flex;gap:8px;align-items:center;max-width:90vw}
+#toast.on{opacity:1;transform:translate(-50%,0)}#toast.err{background:var(--bad)}
+.sk{background:linear-gradient(90deg,#ECE8DE 25%,#F5F2EB 50%,#ECE8DE 75%);background-size:200% 100%;animation:sk 1.2s infinite;border-radius:16px;height:86px;margin-bottom:10px}
+@keyframes sk{to{background-position:-200% 0}}
+@media print{header,nav,.filters,.toolbar,.sendbar,#toast,#install,.noprint{display:none!important}body,html{background:#fff;font-size:12px}main{padding:0;max-width:none}
+ section{display:none!important}section.on{display:block!important}.sumhead{display:block;font-size:18px;font-weight:700;margin-bottom:8px}
+ .card,.chart,.stat,.ugroup{box-shadow:none;border:1px solid #ddd;break-inside:avoid}.charts{grid-template-columns:1fr 1fr}}
+</style>
 </head>
 <body>
 <div id="offline">ออฟไลน์อยู่ — ดูหน้าได้ แต่บันทึกงานไม่ได้จนกว่าจะต่อเน็ต</div>
 <header>
- <div class="hrow"><h1><a href="./">CMNH แผนงานแผนก</a><small>Department Work Plan · Daily / Weekly / Monthly</small></h1>
-  <span class="hright"><button id="install" title="ติดตั้งเป็นแอปบนเครื่องนี้">⬇ ติดตั้งแอป</button><a class="back" href="./">← แผนงานปี 2570</a></span></div>
- <nav><button data-v="me" class="on">งานของแผนก</button><button data-v="md">ภาพรวม MD</button><button data-v="sum">สรุปรายเดือน</button><button data-v="edit" class="exec-only">จัดการงาน</button></nav>
+ <div class="ab">
+  <a class="brand" href="./work.html"><img src="./icons/icon-192.png" alt=""><span><b>แผนงานแผนก</b><small>CMNH · Department Work Plan</small></span></a>
+  <span class="hright"><button id="install">ติดตั้งแอป</button><a class="back" href="./">แผนงานปี 2570 ↗</a></span>
+ </div>
+ <nav class="tabs">
+  <button data-v="me" class="on"><svg class="ico" viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg><span>งานของฉัน</span></button>
+  <button data-v="md"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>ภาพรวม</span></button>
+  <button data-v="sum"><svg class="ico" viewBox="0 0 24 24"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg><span>สรุปเดือน</span></button>
+  <button data-v="edit" class="exec-only"><svg class="ico" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg><span>จัดการงาน</span></button>
+ </nav>
 </header>
 <main>
-<div class="ios-hint" id="iosHint"><button aria-label="ปิด">✕</button>ติดตั้งเป็นแอปบน iPhone/iPad: กดปุ่ม <b>แชร์</b> (สี่เหลี่ยมมีลูกศรขึ้น) ใน Safari แล้วเลือก <b>“เพิ่มไปยังหน้าจอโฮม”</b></div>
+<div class="ios-hint" id="iosHint"><span class="grow">ติดตั้งเป็นแอป: กดปุ่ม <b>แชร์</b> ใน Safari แล้วเลือก <b>“เพิ่มไปยังหน้าจอโฮม”</b></span><button class="iconbtn" aria-label="ปิด" style="width:30px;height:30px">✕</button></div>
+
 <section id="me" class="on">
- <div class="bar">
-  <label>หน่วย<select id="selU"></select></label>
-  <label>แผนก<select id="selD"></select></label>
-  <label>ชื่อผู้บันทึก<input id="selN" placeholder="ชื่อ-สกุล หัวหน้าแผนก" autocomplete="name"></label>
-  <label style="flex:0 1 160px">วันที่<input id="selDate" type="date"></label>
+ <div class="hero">
+  <button class="deptbtn" id="pickDept"><span class="av" id="deptAv">–</span><span class="grow"><b id="deptName">เลือกแผนก</b><small id="deptSub">แตะเพื่อเลือกหน่วย แผนก และชื่อผู้บันทึก</small></span>
+   <svg class="ico" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="herobody">
+   <div class="ring" id="ring"></div>
+   <div class="grow">
+    <div class="datebar"><button class="iconbtn" id="dPrev" aria-label="วันก่อน"><svg class="ico" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+     <label class="datepick"><span id="dLabel">วันนี้</span><input type="date" id="selDate"></label>
+     <button class="iconbtn" id="dNext" aria-label="วันถัดไป"><svg class="ico" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button></div>
+    <div class="herometa" id="heroMeta"></div>
+   </div>
+  </div>
  </div>
+ <div id="meBanner"></div>
+ <div class="seg" id="seg"></div>
  <div id="meBody"></div>
 </section>
+<div class="sendbar hide" id="sendbar"><div class="in"><div class="st" id="sendSt"></div><button class="btn pri" id="sendBtn"></button></div></div>
+
 <section id="md">
- <div class="bar">
-  <label style="flex:0 1 170px">วันที่<input id="mdDate" type="date"></label>
-  <label>หน่วย<select id="mdU"></select></label>
-  <p class="note" style="flex:2 1 260px;margin:0">ข้อมูลอัปเดตเองทุก 1 นาที · กดชื่อแผนกเพื่อเปิดงานของแผนกนั้น</p>
+ <div class="filters">
+  <div class="datebar"><button class="iconbtn" id="mPrev" aria-label="วันก่อน"><svg class="ico" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+   <label class="datepick"><span id="mLabel"></span><input type="date" id="mdDate"></label>
+   <button class="iconbtn" id="mNext" aria-label="วันถัดไป"><svg class="ico" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button></div>
+  <select id="mdU"></select>
  </div>
  <div class="stats" id="mdStats"></div>
- <div class="scroll"><table class="utab" id="mdTab"></table></div>
- <h3>เรื่องที่ต้องรายงานหัวหน้า และงานที่ทำไม่ได้ (7 วันล่าสุด)</h3>
+ <h3 class="sh" id="issHead">เรื่องที่ต้องดู</h3>
  <div class="issues" id="mdIss"></div>
+ <h3 class="sh">ทุกแผนก <span class="note" style="font-weight:400">· แตะเพื่อเปิดงานของแผนก · อัปเดตเองทุก 1 นาที</span></h3>
+ <div id="mdList"></div>
 </section>
+
 <section id="sum">
- <div class="bar">
-  <label style="flex:0 1 170px">เดือน<input id="sumM" type="month"></label>
-  <label>หน่วย<select id="sumU"></select></label>
-  <span style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="sumPrint">🖨 พิมพ์ / PDF</button><button class="btn" id="sumCopy">คัดลอกสรุป</button><button class="btn pri" id="sumLine" hidden>ส่งสรุปเข้า LINE</button></span>
+ <div class="filters">
+  <input id="sumM" type="month">
+  <select id="sumU"></select>
+  <span class="toolbar"><button class="btn" id="sumPrint">พิมพ์ / PDF</button><button class="btn" id="sumCopy">คัดลอก</button><button class="btn pri" id="sumLine" hidden>ส่งเข้า LINE</button></span>
  </div>
  <div class="sumhead" id="sumTitle"></div>
  <div class="stats" id="sumStats"></div>
  <div class="charts" id="sumCharts"></div>
- <div class="scroll"><table class="utab" id="sumTab"></table></div>
- <p class="note">% งานที่ทำแล้ว = งานที่ติ๊ก “ทำแล้ว” ÷ งานทั้งหมดที่ควรทำในเดือน (Daily × จำนวนวัน, Weekly × จำนวนสัปดาห์ที่วันจันทร์อยู่ในเดือนนี้, Monthly × 1) นับถึงวันนี้ถ้าเป็นเดือนปัจจุบัน · ใช้รายการงานปัจจุบัน งานที่ลบไปแล้วจะไม่ถูกนับ</p>
+ <div class="card"><div class="scroll"><table class="utab" id="sumTab"></table></div></div>
+ <p class="note" style="padding:0 4px">% งานที่ทำแล้ว = งานที่ติ๊ก “ทำแล้ว” ÷ งานที่ควรทำในเดือน (Daily × จำนวนวัน, Weekly × จำนวนสัปดาห์ที่วันจันทร์อยู่ในเดือน, Monthly × 1) นับถึงวันนี้ถ้าเป็นเดือนปัจจุบัน · งานที่ลบไปแล้วไม่ถูกนับ</p>
 </section>
+
 <section id="edit" class="exec-only">
- <div class="bar">
-  <label>หน่วย<select id="edU"></select></label>
-  <label>แผนก<select id="edD"></select></label>
-  <span style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="edAddD">+ เพิ่มแผนก</button><button class="btn bad" id="edDelD">ลบแผนกนี้</button></span>
+ <div class="filters">
+  <select id="edU"></select><select id="edD"></select>
+  <span class="toolbar"><button class="btn" id="edAddD">+ แผนก</button><button class="btn bad" id="edDelD">ลบแผนก</button></span>
  </div>
- <div class="bar">
-  <label>ชื่อแผนก<input id="edName"></label>
-  <label style="flex:0 1 200px">รายงานถึง<input id="edTo" placeholder="เช่น MD, ผอ.หน่วย"></label>
-  <label style="flex:0 1 200px">หน่วยเริ่มใช้จริง (เว้นว่าง = ใช้แล้ว)<input id="edStart" type="month"></label>
- </div>
- <div class="pcard"><div class="edrow edhead"><span>รอบ</span><span>งาน</span><span>ผลลัพธ์ที่ต้องได้</span><span></span></div><div id="edRows"></div>
-  <div class="edfoot"><button class="btn" id="edAddT">+ เพิ่มงาน</button><span style="flex:1"></span><span class="dirty" id="edDirty"></span>
-   <button class="btn" id="edReset">คืนค่าตามเอกสารต้นฉบับ</button><button class="btn pri" id="edSave">บันทึกรายการงาน</button></div></div>
- <p class="note">การแก้ไขมีผลกับทุกคนทันทีหลังบันทึก · งานที่ติ๊กไว้แล้วยังอยู่ครบเพราะแต่ละงานมีรหัสของตัวเอง · ลบงานแล้วประวัติของงานนั้นจะไม่แสดงในสรุป</p>
+ <div class="card cpad"><div class="grid3">
+  <div><span class="lbl">ชื่อแผนก</span><input id="edName"></div>
+  <div><span class="lbl">รายงานถึง</span><input id="edTo" placeholder="เช่น MD, ผอ.หน่วย"></div>
+  <div><span class="lbl">หน่วยเริ่มใช้จริง (ว่าง = ใช้แล้ว)</span><input id="edStart" type="month"></div>
+ </div></div>
+ <div class="card"><div id="edRows"></div>
+  <div class="edfoot"><button class="btn" id="edAddT">+ เพิ่มงาน</button><span class="grow"></span><span class="dirty" id="edDirty"></span>
+   <button class="btn ghost" id="edReset">คืนค่าต้นฉบับ</button><button class="btn pri" id="edSave">บันทึก</button></div></div>
+ <p class="note" style="padding:0 4px">มีผลกับทุกคนทันทีหลังบันทึก · งานที่ติ๊กไว้แล้วยังอยู่ครบ เพราะแต่ละงานมีรหัสของตัวเอง</p>
 </section>
 </main>
+
+<dialog class="sheet" id="sheet"><div class="grab"></div><div class="sb">
+ <h2>แผนกของฉัน</h2>
+ <div class="field"><span class="lbl">หน่วย</span><select id="selU"></select></div>
+ <div class="field"><span class="lbl">แผนก</span><select id="selD"></select></div>
+ <div class="field"><span class="lbl">ชื่อผู้บันทึก</span><input id="selN" placeholder="ชื่อ-สกุล หัวหน้าแผนก" autocomplete="name"></div>
+ <button class="btn pri" id="sheetOk" style="width:100%;padding:13px">เรียบร้อย</button>
+</div></dialog>
+
 <div id="toast"></div><div id="tip"></div>
 <script src="./config.js"></script>
 <script>window.APP_GUEST=true</script>
