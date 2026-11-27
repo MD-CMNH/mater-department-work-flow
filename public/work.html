@@ -258,6 +258,52 @@ dialog.sheet[open]{animation:up .22s ease}
 #toast.on{opacity:1;transform:translate(-50%,0)}#toast.err{background:var(--bad)}
 .sk{background:linear-gradient(90deg,#ECE8DE 25%,#F5F2EB 50%,#ECE8DE 75%);background-size:200% 100%;animation:sk 1.2s infinite;border-radius:16px;height:86px;margin-bottom:10px}
 @keyframes sk{to{background-position:-200% 0}}
+
+/* ---------- UX round 2 */
+/* people without a password: their own work only, no tab bar */
+html.guest nav.tabs{display:none}
+@media(max-width:760px){html.guest main{padding-bottom:calc(110px + var(--safe))}html.guest .sendbar{bottom:0;padding-bottom:calc(10px + var(--safe))}}
+/* first visit */
+#welcome{display:none;text-align:center;padding:28px 6px 10px;max-width:420px;margin:0 auto}
+html.nodept #welcome{display:block}
+html.nodept #me .hero,html.nodept #meBanner,html.nodept #seg,html.nodept #meBody,html.nodept .sendbar{display:none!important}
+.wl-logo{width:84px;height:84px;border-radius:24px;box-shadow:var(--sh)}
+#welcome h2{font-size:24px;margin:16px 0 6px;letter-spacing:-.01em}
+.wl-sub{color:var(--mute);margin:0 0 22px}
+.wl-steps{list-style:none;padding:0;margin:0 0 24px;text-align:left;display:flex;flex-direction:column;gap:10px}
+.wl-steps li{display:flex;gap:14px;align-items:center;background:#fff;border-radius:16px;padding:14px 16px;box-shadow:var(--sh)}
+.wl-steps b{width:34px;height:34px;border-radius:50%;background:var(--brand-soft);color:var(--brand);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.wl-steps strong{display:block;font-size:15px}
+.wl-steps span{font-size:13px;color:var(--mute)}
+.wl-steps strong{color:var(--ink)}
+.task.open .tnote{display:none}
+/* calmer task cards: circle, text and a ⋯ button; options open on tap */
+.task{grid-template-columns:auto 1fr auto;align-items:start}
+.chk{width:44px;height:44px;margin-top:-4px}
+.chk .ico{width:22px;height:22px}
+.tbody{cursor:pointer;min-width:0;padding-top:4px}
+.more{width:36px;height:36px;border:0;background:none;color:var(--faint);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:-2px -6px 0 0}
+.more .ico{fill:currentColor;stroke:none}
+.more:active,.task.open .more{background:#F1EEE6;color:var(--ink)}
+.tact,.tn{grid-column:2/-1}
+.tact{display:none}
+.task.open .tact,.task.s-no .tact{display:flex}
+.task.open .tn{display:block}
+.tnote{display:flex;gap:6px;font-size:13px;color:var(--brand);margin-top:4px}
+.tnote .ico{width:14px;height:14px;margin-top:3px}
+.hint{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--mute);margin:-4px 4px 12px}
+.hint .ico{width:18px;height:18px;color:var(--good)}
+/* "sent" moment */
+#done{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;background:rgba(20,30,25,.35);opacity:0;pointer-events:none;transition:opacity .2s}
+#done.on{opacity:1;pointer-events:auto}
+#done .dc{background:#fff;border-radius:24px;padding:28px 34px;text-align:center;box-shadow:var(--sh-l);transform:scale(.9);transition:transform .25s cubic-bezier(.2,1.4,.4,1);min-width:240px}
+#done.on .dc{transform:none}
+#done .dcheck{width:72px;height:72px;border-radius:50%;background:var(--good);margin:0 auto 14px;display:flex;align-items:center;justify-content:center}
+#done .dcheck svg{width:40px;height:40px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:24;stroke-dashoffset:24}
+#done.on .dcheck svg{animation:draw .45s .1s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+#done b{display:block;font-size:18px}
+#done span{font-size:13.5px;color:var(--mute)}
 @media print{header,nav,.filters,.toolbar,.sendbar,#toast,#install,.noprint{display:none!important}body,html{background:#fff;font-size:12px}main{padding:0;max-width:none}
  section{display:none!important}section.on{display:block!important}.sumhead{display:block;font-size:18px;font-weight:700;margin-bottom:8px}
  .card,.chart,.stat,.ugroup{box-shadow:none;border:1px solid #ddd;break-inside:avoid}.charts{grid-template-columns:1fr 1fr}}
@@ -281,6 +327,17 @@ dialog.sheet[open]{animation:up .22s ease}
 <div class="ios-hint" id="iosHint"><span class="grow">ติดตั้งเป็นแอป: กดปุ่ม <b>แชร์</b> ใน Safari แล้วเลือก <b>“เพิ่มไปยังหน้าจอโฮม”</b></span><button class="iconbtn" aria-label="ปิด" style="width:30px;height:30px">✕</button></div>
 
 <section id="me" class="on">
+ <div id="welcome">
+  <img src="./icons/icon-192.png" alt="" class="wl-logo">
+  <h2>แผนงานแผนก</h2>
+  <p class="wl-sub">บันทึกงานประจำของแผนก และส่งรายงานถึงผู้บังคับบัญชาในที่เดียว</p>
+  <ol class="wl-steps">
+   <li><b>1</b><span><strong>เลือกแผนกของคุณ</strong>ทำครั้งเดียว ระบบจะจำไว้</span></li>
+   <li><b>2</b><span><strong>แตะวงกลมเมื่อทำงานเสร็จ</strong>งานรายวัน รายสัปดาห์ และรายเดือน</span></li>
+   <li><b>3</b><span><strong>กดส่งรายงาน</strong>ก่อนส่งเวร หรือ 17.00 น.</span></li>
+  </ol>
+  <button class="btn pri" id="welcomeGo" style="width:100%;padding:15px;font-size:16px">เริ่มต้นใช้งาน</button>
+ </div>
  <div class="hero">
   <button class="deptbtn" id="pickDept"><span class="av" id="deptAv">–</span><span class="grow"><b id="deptName">เลือกแผนก</b><small id="deptSub">แตะเพื่อเลือกหน่วย แผนก และชื่อผู้บันทึก</small></span>
    <svg class="ico" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -353,6 +410,7 @@ dialog.sheet[open]{animation:up .22s ease}
  <button class="btn pri" id="sheetOk" style="width:100%;padding:13px">เรียบร้อย</button>
 </div></dialog>
 
+<div id="done"><div class="dc"><div class="dcheck"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><b id="doneT"></b><span id="doneS"></span></div></div>
 <div id="toast"></div><div id="tip"></div>
 <script src="./config.js"></script>
 <script>window.APP_GUEST=true</script>

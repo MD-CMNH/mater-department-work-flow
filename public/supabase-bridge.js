@@ -63,7 +63,7 @@
       hr.appendChild(b);
       if (window.APP_GUEST) {
         const x = document.createElement("button");
-        x.id = "execLogin"; x.title = "ใส่รหัสเพื่อเข้าเป็นผู้บริหาร"; x.innerHTML = 'เข้าสู่ระบบ<span class="lg-long">ผู้บริหาร</span>';
+        x.id = "execLogin"; x.title = "ใส่รหัสเพื่อเข้าเป็นผู้บริหาร"; x.innerHTML = '🔒 ผู้บริหาร';
         x.onclick = async () => { sessionStorage.setItem("noGuest", "1"); await sb.auth.signOut(); location.reload(); };
         hr.appendChild(x);
       }

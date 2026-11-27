@@ -2,8 +2,8 @@
 // MD overview, monthly summary with charts, task editor, LINE alerts, installable (PWA).
 (function(){
 const $=s=>document.querySelector(s),CFG=window.APP_CONFIG||{};
-const RN={D:'Daily',W:'Weekly',M:'Monthly'},RT={D:'วันนี้',W:'สัปดาห์นี้',M:'เดือนนี้'},RP={D:'Daily Report',W:'Weekly Report',M:'Monthly Report'};
-const RDUE={D:'ส่งก่อนส่งเวร / 17.00 น.',W:'ส่งทุกวันศุกร์',M:'ส่งภายในวันที่ 5 ของเดือนถัดไป'};
+const RN={D:'รายวัน',W:'รายสัปดาห์',M:'รายเดือน'},RT={D:'วันนี้',W:'สัปดาห์นี้',M:'เดือนนี้'},RP={D:'รายงานประจำวัน',W:'รายงานประจำสัปดาห์',M:'รายงานประจำเดือน'};
+const RDUE={D:'ส่งก่อนส่งเวร / 17.00&nbsp;น.',W:'ส่งทุกวันศุกร์',M:'ส่งภายในวันที่ 5 ของเดือนถัดไป'};
 const MON=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
 const MONL=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
 const WD=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
@@ -20,7 +20,7 @@ const monday=d=>{const x=new Date(d);x.setDate(x.getDate()-((x.getDay()+6)%7));r
 const keys=d=>{const mo=monday(d),mk=ymd(d).slice(0,7);return {D:{doc:mk,p:ymd(d)},W:{doc:ymd(mo).slice(0,7),p:'W'+ymd(mo)},M:{doc:mk,p:'M'+mk}}};
 const docKey=(dept,mk)=>'dwp:'+dept+':'+mk;
 const PLAN_KEY='dwp:plan';
-const I={check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',x:'<path d="M17 7L7 17M7 7l10 10"/>',target:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/>',
+const I={dots:'<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>',check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',x:'<path d="M17 7L7 17M7 7l10 10"/>',target:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/>',
  note:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',alert:'<path d="M12 3l9.5 17h-19z"/><path d="M12 10v4M12 17.5v.01"/>',send:'<path d="M21 3L10 14"/><path d="M21 3l-7 18-4-7-7-4z"/>',
  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',chev:'<path d="M6 9l6 6 6-6"/>',up:'<path d="M18 15l-6-6-6 6"/>',down:'<path d="M6 9l6 6 6-6"/>',
  trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.6.8 2.6 2.5 3 5.2"/>',
@@ -72,11 +72,12 @@ async function lineBox(){const box=$('#lineBox'),d=DEPT[$('#selD').value];if(!CF
  if(!BOT&&sb){const r=await line({type:'botinfo'});if(r&&r.basicId){BOT=r.basicId;LS.set('botId',BOT)}}
  if(!BOT){box.hidden=true;return}
  const cmd='ผูก '+d.id;box.hidden=false;
- box.innerHTML='<b class="t">'+svg('chat')+'รับแจ้งเตือนส่วนตัวทาง LINE</b>คำตัดสินของ MD และการเตือนเมื่อแผนกยังไม่ส่ง Daily จะส่งถึงคุณโดยตรง<br>รหัสแผนกนี้: <code>'+esc(d.id)+'</code>'
+ box.innerHTML='<b class="t">'+svg('chat')+'รับแจ้งเตือนส่วนตัวทาง LINE</b>คำตัดสินของ MD และการเตือนเมื่อแผนกยังไม่ส่งรายงานประจำวัน จะส่งถึงคุณโดยตรง<br>รหัสแผนกสำหรับ LINE: <code>'+esc(d.id)+'</code>'
   +'<div class="row"><a class="btn line sm" href="https://line.me/R/ti/p/'+BOT+'" target="_blank" rel="noopener">1. เพิ่มเพื่อน</a>'
   +'<a class="btn line sm" href="https://line.me/R/oaMessage/'+BOT+'/?'+encodeURIComponent(cmd)+'" target="_blank" rel="noopener">2. ส่ง “'+esc(cmd)+'”</a></div>'}
 const sheet=$('#sheet');
 $('#pickDept').onclick=()=>{const d0=DEPT[LS.get('dept')];if(d0){$('#selU').value=d0.unit.unit;fillDepts()}lineBox();sheet.showModal()};
+$('#welcomeGo').onclick=()=>{lineBox();sheet.showModal()};
 $('#sheetOk').onclick=()=>{LS.set('dept',$('#selD').value);LS.set('name',$('#selN').value.trim());sheet.close();drawMe()};
 sheet.addEventListener('click',e=>{if(e.target===sheet)sheet.close()});
 $('#selDate').onchange=drawMe;
@@ -86,7 +87,7 @@ const dayLabel=s=>{const d=parse(s);return (s===today?'วันนี้':s===a
 function ring(done,n){const r=40,c=2*Math.PI*r,f=n?done/n:0;
  return '<svg viewBox="0 0 92 92"><circle cx="46" cy="46" r="'+r+'" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="8"/><circle cx="46" cy="46" r="'+r+'" fill="none" stroke="'+(f>=1?'#7FD3A0':'#C9A34E')+'" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+(c*f)+' '+c+'" style="transition:stroke-dasharray .4s"/></svg>'
   +'<div class="rv"><b>'+done+'/'+n+'</b><small>'+(f>=1?'ครบแล้ว':'ทำแล้ว')+'</small></div>'}
-async function drawMe(){const dept=DEPT[LS.get('dept')]||DEPT[$('#selD').value];
+async function drawMe(){const dept=DEPT[LS.get('dept')];document.documentElement.classList.toggle('nodept',!dept);
  const d=parse($('#selDate').value||today),K=keys(d);$('#dLabel').textContent=dayLabel(ymd(d));
  if(!dept)return;
  $('#deptAv').textContent=initials(dept.name);$('#deptName').textContent=dept.name;
@@ -104,12 +105,15 @@ function renderMe(){const {dept,d,K}=ME,mk=ymd(d).slice(0,7);
  if(!rounds.length){$('#ring').innerHTML=ring(0,0);$('#heroMeta').textContent='';$('#meBody').innerHTML='<p class="empty">แผนกนี้ยังไม่มีรายการงาน</p>';$('#sendbar').classList.add('hide');return}
  const r=curR,c=cnt(r),e=meEntry(r),tasks=tasksOf(dept,r);
  $('#ring').innerHTML=ring(c.done,c.n);
- $('#heroMeta').innerHTML=(r==='D'?'':RT[r]+' · '+(r==='W'?th(monday(d))+' – '+th(new Date(monday(d).getTime()+6*864e5)):MONL[d.getMonth()])+'<br>')+'รายงานถึง <b>'+esc(dept.to)+'</b> · '+RDUE[r];
+ $('#heroMeta').innerHTML=(r==='D'?'':RT[r]+' · '+(r==='W'?th(monday(d))+' – '+th(new Date(monday(d).getTime()+6*864e5)):MONL[d.getMonth()])+'<br>')+'รายงานถึง <b>'+esc(dept.to)+'</b> · <span style="white-space:nowrap">'+RDUE[r]+'</span>';
  let h='';
  if(e.rep.ack)h+='<div class="ack">'+svg('chat')+'<span><b>คำตัดสินจาก MD:</b> '+esc(e.rep.ack.n||'รับทราบ')+'</span></div>';
+ if(!c.done)h+='<p class="hint">'+svg('ok')+'<span>แตะวงกลมเมื่อทำเสร็จ · แตะ <b>⋯</b> ถ้าทำไม่ได้หรืออยากใส่หมายเหตุ</span></p>';
  h+='<div class="tlist">'+tasks.map(t=>{const s=e.t[t.id]||{};
   return '<div class="task s-'+(s.s||'')+(s.n||s.s==='no'?' show-n':'')+'" data-i="'+esc(t.id)+'"><button class="chk" aria-label="ทำแล้ว">'+svg(s.s==='no'?'x':'check')+'</button>'
-   +'<div><div class="tt">'+esc(t.t)+'</div>'+(t.e?'<div class="te">'+svg('target')+'<span>'+esc(t.e)+'</span></div>':'')+'</div>'
+   +'<div class="tbody"><div class="tt">'+esc(t.t)+'</div>'+(t.e?'<div class="te">'+svg('target')+'<span>'+esc(t.e)+'</span></div>':'')
+   +(s.n&&s.s!=='no'?'<div class="tnote">'+svg('note')+esc(s.n)+'</div>':'')+'</div>'
+   +'<button class="more" aria-label="ตัวเลือกเพิ่ม">'+svg('dots')+'</button>'
    +'<div class="tact"><button class="btn sm no'+(s.s==='no'?' on':'')+'">'+svg('x')+'ทำไม่ได้</button><button class="btn sm ghost nb">'+svg('note')+(s.n?'แก้หมายเหตุ':'หมายเหตุ')+'</button>'
    +(s.by&&s.s?'<span class="tmeta">'+esc(s.by)+(s.at?' · '+hm(s.at):'')+'</span>':'')+'</div>'
    +'<div class="tn"><input value="'+esc(s.n)+'" placeholder="'+(s.s==='no'?'เหตุผลที่ทำไม่ได้ (ต้องกรอก)':'ผลที่ได้ / หมายเหตุ')+'"></div></div>'}).join('')+'</div>';
@@ -123,10 +127,12 @@ function renderMe(){const {dept,d,K}=ME,mk=ymd(d).slice(0,7);
  // send bar
  $('#sendbar').classList.remove('hide');
  $('#sendSt').className='st'+(e.sub?' ok':'');
- $('#sendSt').innerHTML=e.sub?'<b>✓ ส่ง '+RP[r]+' แล้ว</b>'+hm(e.sub)+' · '+esc(e.by):'<b>'+RP[r]+'</b>ทำแล้ว '+c.done+' จาก '+c.n+' งาน · ยังไม่ส่ง';
+ $('#sendSt').innerHTML=e.sub?'<b>✓ ส่ง'+RP[r]+'แล้ว</b>'+hm(e.sub)+' · '+esc(e.by):'<b>'+RP[r]+'</b>ทำแล้ว '+c.done+' จาก '+c.n+' งาน · ยังไม่ส่ง';
  $('#sendBtn').innerHTML=svg('send')+(e.sub?'ส่งอีกครั้ง':'ส่งรายงาน');
  bindMe()}
 const by=()=>LS.get('name')||'(ไม่ระบุชื่อ)';
+function done(what){const o=$('#done');$('#doneT').textContent='ส่ง'+what+'แล้ว';$('#doneS').textContent=new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})+' น. · ขอบคุณครับ';
+ o.classList.add('on');if(navigator.vibrate)navigator.vibrate([10,40,10]);clearTimeout(done.t);done.t=setTimeout(()=>o.classList.remove('on'),2200);o.onclick=()=>o.classList.remove('on')}
 async function setTask(i,patch){const {dept,K}=ME,k=docKey(dept.id,K[curR].doc),p=K[curR].p;
  try{ME.docs[k]=await save(k,v=>{const e=entry(v,p);e.t[i]=Object.assign({},e.t[i],patch,{by:by(),at:Date.now()})},1)}catch(e){}
  renderMe()}
@@ -135,6 +141,7 @@ function bindMe(){const {dept,K}=ME,r=curR,k=docKey(dept.id,K[r].doc),p=K[r].p;
   row.querySelector('.chk').onclick=()=>{row.className='task s-'+(s()==='ok'?'':'ok');if(navigator.vibrate)navigator.vibrate(8);setTask(i,{s:s()==='ok'?'':'ok'})};
   row.querySelector('.no').onclick=()=>{const on=s()==='no';row.classList.toggle('s-no',!on);row.classList.add('show-n');if(!on)inp.focus();setTask(i,{s:on?'':'no'})};
   row.querySelector('.nb').onclick=()=>{row.classList.add('show-n');inp.focus()};
+  const tog=()=>row.classList.toggle('open');row.querySelector('.more').onclick=tog;row.querySelector('.tbody').onclick=tog;
   inp.onchange=()=>setTask(i,{n:inp.value.trim()})});
  $('#meBody').querySelectorAll('.rep [data-f]').forEach(f=>f.onchange=async()=>{try{ME.docs[k]=await save(k,v=>{const e=entry(v,p);e.rep[f.dataset.f]=f.type==='checkbox'?f.checked:f.value.trim()},1)}catch(e){}});
  $('#sendBtn').onclick=async()=>{if(!LS.get('name')){toast('ใส่ชื่อผู้บันทึกก่อนส่ง',1);sheet.showModal();$('#selN').focus();return}
@@ -144,7 +151,7 @@ function bindMe(){const {dept,K}=ME,r=curR,k=docKey(dept.id,K[r].doc),p=K[r].p;
   const btn=$('#sendBtn');btn.disabled=true;let alert=false,v;
   try{v=await save(k,v=>{const e=entry(v,p);Object.assign(e.rep,vals);e.sub=Date.now();e.by=by();
    // an urgent report goes to LINE once per report (re-sending the same report does not alert again)
-   if(vals.esc&&CFG.lineNotify&&!e.rep.lineAt){alert=true;e.rep.lineAt=Date.now()}},1);ME.docs[k]=v;toast('ส่ง '+RP[r]+' แล้ว')}catch(e){btn.disabled=false;return}
+   if(vals.esc&&CFG.lineNotify&&!e.rep.lineAt){alert=true;e.rep.lineAt=Date.now()}},1);ME.docs[k]=v;done(RP[r])}catch(e){btn.disabled=false;return}
   if(alert){const e=v[p],no=tasksOf(dept,r).filter(t=>(e.t[t.id]||{}).s==='no').map(t=>t.t+' — '+e.t[t.id].n);
    const lab=r==='D'?th(ME.d):r==='W'?'สัปดาห์ '+th(monday(ME.d)):MON[ME.d.getMonth()]+' '+(ME.d.getFullYear()+543);
    line({type:'escalation',unit:dept.unit.name,dept:dept.name,to:dept.to,round:RP[r],label:lab,by:e.by,issue:vals.issue,pending:vals.pending,report:vals.report,no},true)}
@@ -183,11 +190,11 @@ async function drawMd(){const d=parse($('#mdDate').value||today),K=keys(d),uf=$(
     Object.entries(e.t||{}).forEach(([i,t])=>{if(t.s==='no'){const task=dp.tasks.find(x=>x.id===i);noN++;iss.push({kind:'no',dt,p,mk,dept:dp,txt:(task?task.t:'(งานที่ถูกลบแล้ว)'),why:t.n||'ไม่ได้ระบุเหตุผล',by:t.by})}})}));
    escN+=open;
    h+='<div class="drow" data-id="'+dp.id+'"><div class="dn">'+esc(dp.name)+'<small>รายงานถึง '+esc(dp.to)+'</small></div><div class="dchips">'+chip(dp,'D')+chip(dp,'W')+chip(dp,'M')+'</div>'
-    +'<div class="drate"><div class="meter '+rc+'"><i style="width:'+rate+'%"></i></div><small>ส่ง Daily '+s+'/'+d.getDate()+' วันในเดือนนี้</small></div>'
+    +'<div class="drate"><div class="meter '+rc+'"><i style="width:'+rate+'%"></i></div><small>ส่งรายวัน '+s+'/'+d.getDate()+' วันในเดือนนี้</small></div>'
     +'<div class="desc">'+(open?'<span class="chip r">'+svg('alert')+open+'</span>':'')+'</div></div>'});
   h+='</div>'});
  $('#mdList').innerHTML=h;
- $('#mdStats').innerHTML=stat('send',sentD+'<span style="font-size:15px;color:var(--faint)">/'+act+'</span>','แผนกที่ส่ง Daily Report')
+ $('#mdStats').innerHTML=stat('send',sentD+'<span style="font-size:15px;color:var(--faint)">/'+act+'</span>','แผนกที่ส่งรายงานประจำวัน')
   +stat('alert',escN,'เรื่องด่วนรอตัดสิน',escN?'r':'')+stat('x',noN,'งานที่ทำไม่ได้ (7 วัน)',noN?'a':'')+stat('ok',(act?Math.round(sentD/act*100):0)+'%','อัตราส่งรายงาน'+(ymd(d)===today?'วันนี้':''));
  $('#mdList').querySelectorAll('.drow').forEach(a=>a.onclick=()=>{const dp=DEPT[a.dataset.id];LS.set('dept',dp.id);$('#selDate').value=ymd(d);show('me')});
  iss.sort((a,b)=>(b.urgent&&!b.ack)-(a.urgent&&!a.ack)||b.dt-a.dt);
@@ -226,12 +233,12 @@ async function drawSum(){const mk=$('#sumM').value||today.slice(0,7),uf=$('#sumU
  if(!upto){$('#sumStats').innerHTML='';$('#sumCharts').innerHTML='';$('#sumTab').innerHTML='<tr><td class="empty">เดือนนี้ยังไม่เริ่ม</td></tr>';return}
  const T=list.reduce((a,x)=>{a.exp+=x.s.exp;a.ok+=x.s.ok;a.no+=x.s.no;a.dS+=x.s.dSent;a.dN+=x.s.hasD?upto:0;a.esc+=x.s.esc;a.open+=x.s.escOpen;return a},{exp:0,ok:0,no:0,dS:0,dN:0,esc:0,open:0});
  $('#sumStats').innerHTML=stat('ok',(T.exp?Math.round(T.ok/T.exp*100):0)+'%','งานที่ทำแล้ว · '+T.ok.toLocaleString()+' จาก '+T.exp.toLocaleString())
-  +stat('send',(T.dN?Math.round(T.dS/T.dN*100):0)+'%','อัตราส่ง Daily · '+list.length+' แผนก · '+upto+' วัน')
+  +stat('send',(T.dN?Math.round(T.dS/T.dN*100):0)+'%','อัตราส่งรายงานประจำวัน · '+list.length+' แผนก · '+upto+' วัน')
   +stat('x',T.no,'ครั้งที่ทำงานไม่ได้',T.no?'a':'')
   +stat('alert',T.esc,'เรื่องด่วน'+(T.open?' · ค้าง '+T.open:' · ตัดสินครบ'),T.open?'r':'');
  $('#sumCharts').innerHTML=list.length?'<div class="chart"><h4>% งานที่ทำแล้ว รายแผนก</h4><p>'+thM(mk)+(upto<last?' · ถึงวันที่ '+upto:'')+'</p>'+barsH(list)+'</div>'
-  +'<div class="chart"><h4>แผนกที่ส่ง Daily Report รายวัน</h4><p>จาก '+list.filter(x=>x.s.hasD).length+' แผนกที่มีงานรายวัน · ชี้ที่แท่งเพื่อดูแผนกที่ยังไม่ส่ง</p>'+cols(list,mk,upto)+'</div>':'';
- let h='<tr><th>แผนก</th><th class="c">งานที่ทำแล้ว</th><th class="c">ส่ง Daily</th><th class="c">ส่ง Weekly</th><th class="c">ส่ง Monthly</th><th class="c">ทำไม่ได้</th><th class="c">เรื่องด่วน</th></tr>',cu='';
+  +'<div class="chart"><h4>แผนกที่ส่งรายงานประจำวัน แต่ละวัน</h4><p>จาก '+list.filter(x=>x.s.hasD).length+' แผนกที่มีงานรายวัน · ชี้ที่แท่งเพื่อดูแผนกที่ยังไม่ส่ง</p>'+cols(list,mk,upto)+'</div>':'';
+ let h='<tr><th>แผนก</th><th class="c">งานที่ทำแล้ว</th><th class="c">รายวัน</th><th class="c">รายสัปดาห์</th><th class="c">รายเดือน</th><th class="c">ทำไม่ได้</th><th class="c">เรื่องด่วน</th></tr>',cu='';
  const pc=(a,b)=>{if(!b)return '<span class="note">–</span>';const r=a/b;return '<span class="chip '+(r>=.9?'g':r>=.6?'a':'r')+'">'+a+'/'+b+'</span>'};
  list.forEach(({dp,u,s})=>{if(u!==cu){cu=u;h+='<tr class="uh"><td colspan="7">'+esc(u.name)+'</td></tr>'}
   h+='<tr><td>'+esc(dp.name)+'</td><td class="c">'+(s.pct==null?'<span class="note">–</span>':'<span class="chip '+(s.pct>=90?'g':s.pct>=60?'a':'r')+'">'+s.pct+'%</span>')+'</td><td class="c">'+(s.hasD?pc(s.dSent,upto):'<span class="note">–</span>')+'</td><td class="c">'+(s.hasW?pc(s.wSent,s.wN):'<span class="note">–</span>')+'</td><td class="c">'+(s.hasM?(s.mSent?'<span class="chip g">✓ ส่งแล้ว</span>':'<span class="chip'+(upto===last?' r':'')+'">ยังไม่ส่ง</span>'):'<span class="note">–</span>')+'</td><td class="c">'+(s.no||'<span class="note">0</span>')+'</td><td class="c">'+(s.esc?(s.escOpen?'<span class="chip r">'+s.esc+' · ค้าง '+s.escOpen+'</span>':'<span class="chip g">'+s.esc+' · ตัดสินแล้ว</span>'):'<span class="note">0</span>')+'</td></tr>'});
@@ -256,7 +263,7 @@ function cols(list,mk,upto){const last=new Date(+mk.slice(0,4),+mk.slice(5),0).g
   g+='<g class="row" data-tip="'+esc(tip)+'"><rect class="hit" x="'+x0+'" y="0" width="'+cw+'" height="'+H+'"/>'
    +(c?'<rect class="bar" x="'+(x0+1)+'" y="'+y(c)+'" width="'+Math.max(1,cw-2)+'" height="'+(H-B-y(c))+'" rx="3" fill="#2F6B57"/>':'')
    +((i===1||i%5===0||i===last)?'<text x="'+(x0+cw/2)+'" y="'+(H-6)+'" text-anchor="middle">'+i+'</text>':'')+'</g>'}
- return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="จำนวนแผนกที่ส่ง Daily Report รายวัน">'+g+'</svg>'}
+ return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="จำนวนแผนกที่ส่งรายงานประจำวันแต่ละวัน">'+g+'</svg>'}
 function tips(root){const tip=$('#tip');root.querySelectorAll('[data-tip]').forEach(el=>{
  el.onmousemove=e=>{tip.textContent=el.dataset.tip;tip.className='on';const r=tip.getBoundingClientRect();tip.style.left=Math.min(innerWidth-r.width-8,e.clientX+12)+'px';tip.style.top=Math.max(8,e.clientY-r.height-10)+'px'};
  el.onmouseleave=()=>tip.className='';el.onclick=el.onmousemove})}
@@ -264,7 +271,7 @@ function sumText(){if(!SUM||!SUM.upto)return '';const {mk,upto,list}=SUM;
  const T=list.reduce((a,x)=>(a.exp+=x.s.exp,a.ok+=x.s.ok,a.no+=x.s.no,a.open+=x.s.escOpen,a),{exp:0,ok:0,no:0,open:0});
  return '📊 สรุปผลงานแผนก '+thM(mk)+(SUM.uf?' · '+PLAN.find(u=>u.unit===SUM.uf).name:'')+(upto<new Date(+mk.slice(0,4),+mk.slice(5),0).getDate()?' (ถึงวันที่ '+upto+')':'')
   +'\nงานที่ทำแล้ว '+(T.exp?Math.round(T.ok/T.exp*100):0)+'% · ทำไม่ได้ '+T.no+' ครั้ง · เรื่องด่วนค้าง '+T.open
-  +'\n\n'+list.map(({dp,s})=>(s.pct==null?'–':s.pct+'%')+'  '+dp.name+(s.hasD?' · Daily '+s.dSent+'/'+upto:'')+(s.escOpen?' · ⚠ค้าง '+s.escOpen:'')).join('\n')}
+  +'\n\n'+list.map(({dp,s})=>(s.pct==null?'–':s.pct+'%')+'  '+dp.name+(s.hasD?' · ส่งรายวัน '+s.dSent+'/'+upto:'')+(s.escOpen?' · ⚠ค้าง '+s.escOpen:'')).join('\n')}
 $('#sumPrint').onclick=()=>window.print();
 $('#sumCopy').onclick=async()=>{try{await navigator.clipboard.writeText(sumText());toast('คัดลอกแล้ว')}catch(e){toast('คัดลอกไม่ได้',1)}};
 $('#sumLine').hidden=!CFG.lineNotify;
@@ -315,6 +322,7 @@ window.addEventListener('beforeunload',e=>{if(edDirty){e.preventDefault();e.retu
 
 // ---------- navigation
 function show(v){if(v==='edit'&&!document.documentElement.classList.contains('lvl-exec'))v='me';
+ if(document.documentElement.classList.contains('guest')&&v!=='me')v='me';
  if(v!=='edit'&&edDirty&&$('#edit').classList.contains('on')&&!confirm('ยังไม่ได้บันทึกรายการงาน ออกจากหน้านี้?'))return;
  if(v!=='edit'&&edDirty){ED=null;dirty(false)}
  document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===v));document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
@@ -337,8 +345,7 @@ window.claude.use('db').then(async()=>{sb=window.__sb;
  if(!DEPT[LS.get('dept')])LS.set('dept','');
  const h=location.hash.slice(1);if(['md','sum','edit'].includes(h))show(h);else drawMe();
  // first visit: pick the department and name
- if(!LS.get('dept')&&!h){$('#deptName').textContent='เลือกแผนกของคุณ';lineBox();sheet.showModal()}
- if(window.__fin!==undefined)level()});
+  if(window.__fin!==undefined)level()});
 
 // ---------- installable app (PWA)
 if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('sw',e)));
