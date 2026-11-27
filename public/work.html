@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CMNH · แผนงานแผนก (Department Work Plan)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@400;500;600;700&family=Trirong:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#1F4D3E;--brand2:#2F6B57;--ink:#2B2416;--mute:#55493A;--line:#DDD0B4;--bg:#EFE8D8;--card:#FFFDF7;--good:#1E6B3A;--bad:#A4161A;--warn:#9A5B0B;--brass:#E9CF8E}
+*{box-sizing:border-box}
+body{margin:0;font-family:"IBM Plex Sans Thai Looped","Sarabun",sans-serif;color:var(--ink);background:var(--bg);font-size:15px;line-height:1.5}
+header{position:sticky;top:0;z-index:5;color:#F3EBD6;background:linear-gradient(#2D6453,#1F4D3E);padding:10px 16px 0;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.hrow{display:flex;align-items:center;gap:10px;max-width:1100px;margin:0 auto}
+header h1{margin:0;font:700 18px/1.3 Trirong,Georgia,serif;flex:1;min-width:0}
+header h1 a{color:inherit;text-decoration:none}
+header h1 small{font:400 12px "IBM Plex Sans Thai Looped",sans-serif;opacity:.8;display:block}
+.hright{display:flex;gap:8px;align-items:center}
+.back{color:#F3EBD6;font-size:12px;border:1px solid rgba(243,235,214,.5);border-radius:99px;padding:3px 10px;text-decoration:none;white-space:nowrap}
+nav{display:flex;gap:4px;max-width:1100px;margin:8px auto 0}
+nav button{font:inherit;font-size:14px;cursor:pointer;padding:8px 14px 7px;border-radius:9px 9px 0 0;color:#E9DFC6;background:#204E40;border:1px solid #12342A;border-bottom:0}
+nav button.on{color:var(--ink);font-weight:700;background:var(--bg);border-color:#CDBE9C}
+main{max-width:1100px;margin:0 auto;padding:16px 14px 80px}
+section{display:none}section.on{display:block}
+.bar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:end;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:14px}
+.bar label{display:flex;flex-direction:column;font-size:12.5px;color:var(--mute);gap:3px;flex:1 1 180px}
+select,input,textarea{font:inherit;font-size:14.5px;padding:7px 9px;border:1px solid #C9BA97;border-radius:7px;background:#fff;color:var(--ink);width:100%}
+textarea{min-height:56px;resize:vertical}
+.note{color:var(--mute);font-size:13px}
+.banner{background:#FBEFD9;border:1px solid #E5C78F;color:#6B4512;border-radius:8px;padding:8px 12px;margin-bottom:12px;font-size:14px}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:14px;overflow:hidden}
+.phead{display:flex;align-items:center;gap:10px;padding:10px 14px;background:linear-gradient(#F7F0DF,#EFE4CB);border-bottom:1px solid var(--line)}
+.phead h2{margin:0;font:700 17px Trirong,Georgia,serif;color:#20392F;flex:1}
+.phead .pk{font-size:12.5px;color:var(--mute)}
+.prog{font-weight:700;font-size:14px;padding:2px 10px;border-radius:99px;background:#fff;border:1px solid var(--line)}
+.prog.full{background:#E3F1E6;border-color:#9CC9A8;color:var(--good)}
+.task{display:grid;grid-template-columns:1fr auto;gap:6px 10px;padding:10px 14px;border-top:1px solid #EEE5D2}
+.task:first-of-type{border-top:0}
+.task .tt{font-weight:600}
+.task .te{font-size:13px;color:var(--mute)}
+.task .te b{color:#20392F;font-weight:600}
+.task .btns{display:flex;gap:6px;align-self:start}
+.task .btns button{font:inherit;font-size:13.5px;cursor:pointer;border-radius:7px;padding:5px 10px;border:1px solid #C9BA97;background:#fff;white-space:nowrap}
+.task .btns button.ok.on{background:var(--good);border-color:var(--good);color:#fff}
+.task .btns button.no.on{background:var(--bad);border-color:var(--bad);color:#fff}
+.task .tn{grid-column:1/-1}
+.task .tn input{font-size:13.5px;padding:5px 8px}
+.task.s-no .tn input:placeholder-shown{border-color:var(--bad)}
+.rep{padding:12px 14px;border-top:2px solid var(--line);background:#FBF7EC;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.rep label{font-size:12.5px;color:var(--mute);display:flex;flex-direction:column;gap:3px}
+.rep .rfoot{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.rep .esc{display:flex;flex-direction:row;align-items:center;gap:6px;font-size:13.5px;color:var(--bad);font-weight:600}
+.rep .esc input{width:auto}
+.send{font:inherit;font-weight:700;cursor:pointer;padding:8px 18px;border-radius:8px;border:1px solid #163A2F;color:#F6EBCB;background:linear-gradient(#2F6B57,#1F4D3E)}
+.sent{font-size:13px;color:var(--good);font-weight:600}
+.ack{font-size:13px;color:#1F4D3E;background:#E8F0EA;border-radius:6px;padding:3px 8px}
+@media(max-width:700px){.rep{grid-template-columns:1fr}.task{grid-template-columns:1fr}.task .btns{justify-content:flex-start}}
+/* dashboard */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.stat b{display:block;font:700 24px/1.2 Trirong,Georgia,serif}
+.stat span{font-size:12.5px;color:var(--mute)}
+@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){header h1 small{display:none}.bar label{flex-basis:140px}}
+.utab{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:16px;font-size:14px}
+.utab th,.utab td{padding:7px 10px;border-bottom:1px solid #EEE5D2;text-align:left;vertical-align:middle}
+.utab th{background:#EFE4CB;font-size:13px}
+.utab tr.uh td{background:#F7F0DF;font-weight:700;color:#20392F}
+.utab td.c{text-align:center;white-space:nowrap}
+.pill{display:inline-block;min-width:54px;text-align:center;padding:2px 8px;border-radius:99px;font-size:12.5px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--mute)}
+.pill.g{background:#E3F1E6;border-color:#9CC9A8;color:var(--good)}
+.pill.a{background:#FBEFD9;border-color:#E5C78F;color:var(--warn)}
+.pill.r{background:#F8E1E1;border-color:#E0A3A3;color:var(--bad)}
+.dlink{color:#1F4D3E;font-weight:600;cursor:pointer;text-decoration:underline dotted}
+.scroll{overflow-x:auto}
+.issues{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.iss{display:grid;grid-template-columns:110px 1fr auto;gap:4px 12px;padding:10px 14px;border-top:1px solid #EEE5D2}
+.iss:first-child{border-top:0}
+.iss .ik{font-size:12px;font-weight:700;padding:1px 8px;border-radius:99px;align-self:start;justify-self:start}
+.iss .ik.esc{background:#F8E1E1;color:var(--bad)}.iss .ik.no{background:#FBEFD9;color:var(--warn)}
+.iss .im{font-size:13px;color:var(--mute)}
+.iss .iack{grid-column:2/-1;display:flex;gap:6px}
+.iss .iack input{font-size:13px;padding:4px 8px}
+.iss .iack button{font:inherit;font-size:13px;cursor:pointer;border-radius:6px;padding:4px 10px;border:1px solid #163A2F;background:#1F4D3E;color:#fff;white-space:nowrap}
+@media(max-width:700px){.iss{grid-template-columns:1fr}.iss .iack{grid-column:1}}
+h3{font:700 16px Trirong,Georgia,serif;color:#20392F;margin:18px 0 8px}
+#toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#1F4D3E;color:#fff;padding:8px 16px;border-radius:8px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
+#toast.on{opacity:1}#toast.err{background:var(--bad)}
+.empty{padding:14px;color:var(--mute);font-size:14px}
+</style>
+</head>
+<body>
+<header>
+ <div class="hrow"><h1><a href="./">CMNH แผนงานแผนก</a><small>Department Work Plan · Daily / Weekly / Monthly</small></h1>
+  <span class="hright"><a class="back" href="./">← แผนงานปี 2570</a></span></div>
+ <nav><button data-v="me" class="on">งานของแผนก</button><button data-v="md">ภาพรวม MD</button></nav>
+</header>
+<main>
+<section id="me" class="on">
+ <div class="bar">
+  <label>หน่วย<select id="selU"></select></label>
+  <label>แผนก<select id="selD"></select></label>
+  <label>ชื่อผู้บันทึก<input id="selN" placeholder="ชื่อ-สกุล หัวหน้าแผนก" autocomplete="name"></label>
+  <label style="flex:0 1 160px">วันที่<input id="selDate" type="date"></label>
+ </div>
+ <div id="meBody"></div>
+</section>
+<section id="md">
+ <div class="bar">
+  <label style="flex:0 1 170px">วันที่<input id="mdDate" type="date"></label>
+  <label>หน่วย<select id="mdU"></select></label>
+  <p class="note" style="flex:2 1 260px;margin:0">ข้อมูลอัปเดตเองทุก 1 นาที · กดชื่อแผนกเพื่อเปิดงานของแผนกนั้น</p>
+ </div>
+ <div class="stats" id="mdStats"></div>
+ <div class="scroll"><table class="utab" id="mdTab"></table></div>
+ <h3>เรื่องที่ต้องรายงานหัวหน้า และงานที่ทำไม่ได้ (7 วันล่าสุด)</h3>
+ <div class="issues" id="mdIss"></div>
+</section>
+</main>
+<div id="toast"></div>
+<script src="./config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./supabase-bridge.js"></script>
+<script src="./dwp-plan.js"></script>
+<script>
+(function(){
+const $=s=>document.querySelector(s),PLAN=window.DWP_PLAN;
+const DEPT={};PLAN.forEach(u=>u.depts.forEach(d=>DEPT[d.id]=Object.assign({unit:u},d)));
+const RN={D:'วันนี้ · Daily',W:'สัปดาห์นี้ · Weekly',M:'เดือนนี้ · Monthly'},RP={D:'Daily Report',W:'Weekly Report',M:'Monthly Performance Report'};
+const MON=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const ymd=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const parse=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const th=d=>d.getDate()+' '+MON[d.getMonth()]+' '+String(d.getFullYear()+543).slice(2);
+const monday=d=>{const x=new Date(d);x.setDate(x.getDate()-((x.getDay()+6)%7));return x};
+// one record per department per month; a week lives in the month of its Monday
+const keys=d=>{const mo=monday(d),mk=ymd(d).slice(0,7);return {D:{doc:mk,p:ymd(d)},W:{doc:ymd(mo).slice(0,7),p:'W'+ymd(mo)},M:{doc:mk,p:'M'+mk}}};
+const docKey=(dept,mk)=>'dwp:'+dept+':'+mk;
+let sb=null,cache={};
+function toast(t,err){const e=$('#toast');e.textContent=t;e.className='on'+(err?' err':'');clearTimeout(toast.t);toast.t=setTimeout(()=>e.className='',err?5000:1600)}
+async function load(k){const {data,error}=await sb.from('shared_state').select('v').eq('key',k).maybeSingle();if(error)throw error;return cache[k]=(data&&data.v)||{}}
+// read, change, write the latest copy so two people in one department do not overwrite each other
+async function save(k,fn){try{const v=await load(k);fn(v);const {error}=await sb.from('shared_state').upsert({key:k,v,at:Date.now()});if(error)throw error;cache[k]=v;toast('บันทึกแล้ว');return v}
+ catch(e){toast('บันทึกไม่สำเร็จ: '+(e.message||e),1);throw e}}
+const entry=(v,p)=>(v[p]=v[p]||{t:{},rep:{}});
+
+// ---------- head view
+const LS={get:k=>localStorage.getItem('dwp.'+k)||'',set:(k,v)=>localStorage.setItem('dwp.'+k,v)};
+function fillUnits(sel,all){sel.innerHTML=(all?'<option value="">ทุกหน่วย</option>':'')+PLAN.map(u=>'<option value="'+u.unit+'">'+esc(u.name)+'</option>').join('')}
+fillUnits($('#selU'));fillUnits($('#mdU'),1);
+function fillDepts(){const u=PLAN.find(x=>x.unit===$('#selU').value)||PLAN[0];$('#selD').innerHTML=u.depts.map(d=>'<option value="'+d.id+'">'+esc(d.name)+'</option>').join('');
+ if(DEPT[LS.get('dept')]&&DEPT[LS.get('dept')].unit===u)$('#selD').value=LS.get('dept')}
+const d0=DEPT[LS.get('dept')];$('#selU').value=d0?d0.unit.unit:PLAN[1].unit;fillDepts();
+$('#selN').value=LS.get('name');const today=ymd(new Date());$('#selDate').value=today;$('#mdDate').value=today;
+$('#selU').onchange=()=>{fillDepts();LS.set('dept',$('#selD').value);drawMe()};
+$('#selD').onchange=()=>{LS.set('dept',$('#selD').value);drawMe()};
+$('#selN').onchange=()=>LS.set('name',$('#selN').value.trim());
+$('#selDate').onchange=drawMe;
+async function drawMe(){const dept=DEPT[$('#selD').value],d=parse($('#selDate').value||today),K=keys(d),body=$('#meBody');
+ body.innerHTML='<p class="empty">กำลังโหลด…</p>';
+ const docs={};for(const r of 'DWM'){const k=docKey(dept.id,K[r].doc);if(!docs[k])docs[k]=await load(k).catch(()=>({}))}
+ const mk=ymd(d).slice(0,7);let h='';
+ if(dept.unit.start&&mk<dept.unit.start)h+='<div class="banner">หน่วยนี้เริ่มใช้จริง '+MON[+dept.unit.start.slice(5)-1]+' '+String(+dept.unit.start.slice(0,4)+543).slice(2)+' (เมื่อเปิดบริการ) · ตอนนี้ทดลองกรอกได้</div>';
+ h+='<p class="note" style="margin:0 0 10px">รายงานถึง <b>'+esc(dept.to)+'</b> · Daily ก่อนส่งเวร / 17.00 น. · Weekly วันศุกร์ · Monthly ภายในวันที่ 5 ของเดือนถัดไป</p>';
+ for(const r of 'DWM'){const tasks=dept.tasks.map((t,i)=>[t,i]).filter(([t])=>t[0]===r);if(!tasks.length)continue;
+  const k=docKey(dept.id,K[r].doc),e=(docs[k][K[r].p])||{t:{},rep:{}},done=tasks.filter(([,i])=>e.t[i]&&e.t[i].s).length;
+  const lab=r==='D'?th(d):r==='W'?th(monday(d))+' – '+th(new Date(monday(d).getTime()+6*864e5)):MON[d.getMonth()]+' '+(d.getFullYear()+543);
+  h+='<div class="pcard" data-r="'+r+'"><div class="phead"><h2>'+RN[r]+'</h2><span class="pk">'+lab+'</span><span class="prog'+(done===tasks.length?' full':'')+'">'+done+'/'+tasks.length+'</span></div>'
+   +tasks.map(([t,i])=>{const s=(e.t[i]||{});return '<div class="task s-'+(s.s||'')+'" data-i="'+i+'"><div><div class="tt">'+esc(t[1])+'</div><div class="te"><b>ผลลัพธ์ที่ต้องได้:</b> '+esc(t[2])+'</div></div>'
+    +'<div class="btns"><button class="ok'+(s.s==='ok'?' on':'')+'" data-s="ok">✓ ทำแล้ว</button><button class="no'+(s.s==='no'?' on':'')+'" data-s="no">✗ ทำไม่ได้</button></div>'
+    +'<div class="tn"><input value="'+esc(s.n)+'" placeholder="'+(s.s==='no'?'เหตุผลที่ทำไม่ได้ (ต้องกรอก)':'ผลที่ได้ / หมายเหตุ (ถ้ามี)')+'"></div></div>'}).join('')
+   +'<div class="rep"><label>ปัญหาที่พบ<textarea data-f="issue">'+esc(e.rep.issue)+'</textarea></label><label>งานที่ยังไม่เสร็จ / แผนแก้<textarea data-f="pending">'+esc(e.rep.pending)+'</textarea></label><label>เรื่องที่ต้องรายงานหัวหน้า<textarea data-f="report">'+esc(e.rep.report)+'</textarea></label>'
+   +'<div class="rfoot"><label class="esc"><input type="checkbox" data-f="esc"'+(e.rep.esc?' checked':'')+'> ด่วน ต้องให้ผู้บังคับบัญชา / MD ตัดสิน</label>'
+   +'<button class="send">'+(e.sub?'ส่ง '+RP[r]+' อีกครั้ง':'ส่ง '+RP[r])+'</button>'
+   +(e.sub?'<span class="sent">✓ ส่งแล้ว '+new Date(e.sub).toLocaleString('th-TH',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+' โดย '+esc(e.by)+'</span>':'')
+   +(e.rep.ack?'<span class="ack">MD: '+esc(e.rep.ack.n||'รับทราบ')+'</span>':'')+'</div></div></div>'}
+ body.innerHTML=h;
+ body.querySelectorAll('.pcard').forEach(card=>{const r=card.dataset.r,k=docKey(dept.id,K[r].doc),p=K[r].p;
+  const by=()=>$('#selN').value.trim()||'(ไม่ระบุชื่อ)';
+  card.querySelectorAll('.task').forEach(row=>{const i=row.dataset.i,inp=row.querySelector('.tn input');
+   row.querySelectorAll('.btns button').forEach(b=>b.onclick=async()=>{const on=b.classList.contains('on');
+    await save(k,v=>{const e=entry(v,p);e.t[i]=Object.assign({},e.t[i],{s:on?'':b.dataset.s,by:by(),at:Date.now()})});drawMe()});
+   inp.onchange=()=>save(k,v=>{const e=entry(v,p);e.t[i]=Object.assign({},e.t[i],{n:inp.value.trim(),by:by(),at:Date.now()})})});
+  card.querySelectorAll('.rep [data-f]').forEach(f=>f.onchange=()=>save(k,v=>{const e=entry(v,p);e.rep[f.dataset.f]=f.type==='checkbox'?f.checked:f.value.trim()}));
+  card.querySelector('.send').onclick=async()=>{if(!$('#selN').value.trim()){toast('กรอกชื่อผู้บันทึกก่อนส่ง',1);$('#selN').focus();return}
+   const miss=[...card.querySelectorAll('.task')].filter(x=>x.classList.contains('s-no')&&!x.querySelector('.tn input').value.trim());
+   if(miss.length){toast('งานที่ทำไม่ได้ ต้องกรอกเหตุผลก่อนส่ง',1);miss[0].querySelector('input').focus();return}
+   const vals={};card.querySelectorAll('.rep [data-f]').forEach(f=>vals[f.dataset.f]=f.type==='checkbox'?f.checked:f.value.trim());
+   await save(k,v=>{const e=entry(v,p);Object.assign(e.rep,vals);e.sub=Date.now();e.by=by()});drawMe()}})}
+
+// ---------- MD dashboard
+$('#mdDate').onchange=drawMd;$('#mdU').onchange=drawMd;
+async function rows(months){const out={};for(const m of [...new Set(months)]){const {data,error}=await sb.from('shared_state').select('key,v').like('key','dwp:%:'+m);if(error)throw error;
+ (data||[]).forEach(r=>{const [,dept,mk]=r.key.split(':');(out[dept]=out[dept]||{})[mk]=r.v||{}})}return out}
+async function drawMd(){const d=parse($('#mdDate').value||today),K=keys(d),uf=$('#mdU').value;
+ const past=new Date(d.getTime()-6*864e5);let R;
+ try{R=await rows([K.D.doc,K.W.doc,ymd(past).slice(0,7)])}catch(e){$('#mdTab').innerHTML='<tr><td class="empty">โหลดไม่สำเร็จ: '+esc(e.message)+'</td></tr>';return}
+ const get=(id,r)=>((R[id]||{})[K[r].doc]||{})[K[r].p];
+ const after5=ymd(d)<today||new Date().getHours()>=17;
+ let sentD=0,act=0,escN=0,noN=0,h='<tr><th>แผนก</th><th class="c">วันนี้</th><th class="c">สัปดาห์นี้</th><th class="c">เดือนนี้</th><th class="c">ส่ง Daily เดือนนี้</th><th class="c">ต้องตัดสิน</th></tr>';
+ const pill=(id,r)=>{const tasks=DEPT[id].tasks.filter(t=>t[0]===r);if(!tasks.length)return '<span class="note">–</span>';
+  const idx=DEPT[id].tasks.map((t,i)=>t[0]===r?i:-1).filter(i=>i>=0),e=get(id,r)||{t:{}},ok=idx.filter(i=>(e.t[i]||{}).s==='ok').length,no=idx.filter(i=>(e.t[i]||{}).s==='no').length,n=idx.length;
+  const c=no?'r':e.sub&&ok===n?'g':e.sub||ok?'a':(r==='D'&&after5?'r':'');
+  return '<span class="pill '+c+'" title="ทำแล้ว '+ok+' · ทำไม่ได้ '+no+' · '+(e.sub?'ส่งรายงานแล้ว':'ยังไม่ส่ง')+'">'+(e.sub?'✓ ':'')+ok+'/'+n+'</span>'};
+ const iss=[];
+ PLAN.forEach(u=>{if(uf&&u.unit!==uf)return;const live=!u.start||ymd(d).slice(0,7)>=u.start;
+  h+='<tr class="uh"><td colspan="6">'+esc(u.name)+(live?'':' <span class="note">(เริ่มใช้เมื่อเปิดบริการ)</span>')+'</td></tr>';
+  u.depts.forEach(dp=>{const eD=get(dp.id,'D')||{};if(live){act++;if(eD.sub)sentD++}
+   // monthly submission rate of Daily Reports up to the selected day
+   const mdoc=(R[dp.id]||{})[K.D.doc]||{};let s=0;for(let i=1;i<=d.getDate();i++){const p=K.D.doc+'-'+pad(i);if(mdoc[p]&&mdoc[p].sub)s++}
+   const rate=Math.round(s/d.getDate()*100),rc=rate>=90?'g':rate>=60?'a':s?'r':'';
+   // escalations and "could not do" in the last 7 days (+ this week's and month's reports)
+   let open=0;const docs=R[dp.id]||{};Object.entries(docs).forEach(([mk,v])=>Object.entries(v).forEach(([p,e])=>{if(!e||!e.rep)return;
+    const dt=p.startsWith('W')?parse(p.slice(1)):p.startsWith('M')?parse(p.slice(1)+'-01'):parse(p);
+    const inWin=p.startsWith('W')?p===K.W.p:p.startsWith('M')?p===K.M.p:(dt>=past&&dt<=d);if(!inWin)return;
+    if(e.rep.esc&&!e.rep.ack){open++}
+    if(e.rep.esc||e.rep.report)iss.push({kind:'esc',dt,p,mk,dept:dp,txt:e.rep.report||e.rep.issue||'(ไม่ได้ระบุรายละเอียด)',by:e.by,ack:e.rep.ack,urgent:!!e.rep.esc});
+    Object.entries(e.t||{}).forEach(([i,t])=>{if(t.s==='no'){noN++;iss.push({kind:'no',dt,p,mk,dept:dp,txt:(dp.tasks[i]||[])[1]+' — '+(t.n||'ไม่ได้ระบุเหตุผล'),by:t.by})}})}));
+   escN+=open;
+   h+='<tr><td><span class="dlink" data-id="'+dp.id+'">'+esc(dp.name)+'</span></td><td class="c">'+pill(dp.id,'D')+'</td><td class="c">'+pill(dp.id,'W')+'</td><td class="c">'+pill(dp.id,'M')+'</td><td class="c"><span class="pill '+rc+'">'+s+'/'+d.getDate()+' วัน</span></td><td class="c">'+(open?'<span class="pill r">⚠ '+open+'</span>':'<span class="note">–</span>')+'</td></tr>'})});
+ $('#mdTab').innerHTML=h;
+ $('#mdStats').innerHTML='<div class="stat"><b>'+sentD+'/'+act+'</b><span>แผนกที่ส่ง Daily Report '+th(d)+'</span></div><div class="stat"><b style="color:'+(escN?'var(--bad)':'inherit')+'">'+escN+'</b><span>เรื่องด่วนรอตัดสิน</span></div><div class="stat"><b>'+noN+'</b><span>งานที่ทำไม่ได้ (7 วัน)</span></div><div class="stat"><b>'+(act?Math.round(sentD/act*100):0)+'%</b><span>อัตราส่งรายงานวันนี้</span></div>';
+ $('#mdTab').querySelectorAll('.dlink').forEach(a=>a.onclick=()=>{const dp=DEPT[a.dataset.id];$('#selU').value=dp.unit.unit;fillDepts();$('#selD').value=dp.id;$('#selDate').value=ymd(d);show('me');drawMe()});
+ iss.sort((a,b)=>(b.urgent&&!b.ack)-(a.urgent&&!a.ack)||b.dt-a.dt);
+ $('#mdIss').innerHTML=iss.length?iss.map((x,j)=>'<div class="iss"><span class="ik '+x.kind+'">'+(x.kind==='esc'?(x.urgent?'⚠ ด่วน':'รายงาน'):'ทำไม่ได้')+'</span><div><div>'+esc(x.txt)+'</div><div class="im">'+esc(x.dept.name)+' · '+(x.p.startsWith('W')?'สัปดาห์ '+th(x.dt):x.p.startsWith('M')?'เดือน '+MON[x.dt.getMonth()]:th(x.dt))+(x.by?' · '+esc(x.by):'')+'</div></div>'
+   +'<span class="im">'+(x.ack?'✓ '+esc(x.ack.n||'รับทราบ'):'')+'</span>'
+   +(x.kind==='esc'&&x.urgent&&!x.ack?'<div class="iack"><input placeholder="คำตัดสิน / คำสั่ง" data-j="'+j+'"><button data-j="'+j+'">บันทึกคำตัดสิน</button></div>':'')+'</div>').join(''):'<p class="empty">ไม่มีเรื่องค้างใน 7 วันล่าสุด</p>';
+ $('#mdIss').querySelectorAll('button[data-j]').forEach(b=>b.onclick=async()=>{const x=iss[+b.dataset.j],n=$('#mdIss').querySelector('input[data-j="'+b.dataset.j+'"]').value.trim()||'รับทราบ';
+  await save(docKey(x.dept.id,x.mk),v=>{const e=entry(v,x.p);e.rep.ack={n,at:Date.now()}});drawMd()})}
+
+function show(v){document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===v));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));location.hash=v==='md'?'md':'';if(v==='md')drawMd()}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>show(b.dataset.v));
+setInterval(()=>{if(!document.hidden&&$('#md').classList.contains('on'))drawMd()},60000);
+window.claude.use('db').then(()=>{sb=window.__sb;drawMe();if(location.hash==='#md')show('md')});
+window.DWP_APP={show,drawMe,drawMd};
+})();
+</script>
+</body>
+</html>

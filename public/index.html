@@ -141,6 +141,7 @@ header{position:sticky;top:0;z-index:6;color:#F3EBD6;padding:14px 24px 0;
  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1px 0 rgba(0,0,0,.35),0 4px 10px rgba(30,20,5,.35)}
 header>*{max-width:1180px;margin-left:auto;margin-right:auto}
 .hrow{display:flex;align-items:center;gap:12px;justify-content:space-between}
+.wlink{font-size:13px;color:#F3EBD6;text-decoration:none;border:1px solid rgba(243,235,214,.55);border-radius:99px;padding:3px 11px;white-space:nowrap}.wlink:hover{background:rgba(255,255,255,.1)}
 header h1{margin:0;font-size:20px;font-weight:700;letter-spacing:.2px;color:#F3EBD6;text-shadow:0 -1px 0 rgba(0,0,0,.55),0 1px 0 rgba(255,255,255,.12)}
 header p{margin:2px auto 10px;opacity:.85;font-size:13px;text-shadow:0 -1px 0 rgba(0,0,0,.4)}
 .sync{flex:0 0 auto;font-size:12px;font-weight:600;color:#3B2A08;padding:3px 10px;border-radius:99px;white-space:nowrap;
@@ -392,7 +393,7 @@ h4.jdg{margin:18px 0 6px;color:var(--brand)}table.jdh{margin:8px 0;box-shadow:no
 </head>
 <body>
 <header>
-  <div class="hrow"><h1>CMNH <span class="hy">แผนงานปี </span>2570<span class="hy"> (2027)</span></h1><span class="hright"><button class="pbtn" id="pbtn" title="พิมพ์แท็บที่เปิดอยู่" aria-label="พิมพ์หน้านี้">🖨<span class="pl"> พิมพ์หน้านี้</span></button><span class="sync" id="sync" title="สถานะการบันทึกข้อมูล">เก็บในเครื่องนี้</span></span></div>
+  <div class="hrow"><h1>CMNH <span class="hy">แผนงานปี </span>2570<span class="hy"> (2027)</span></h1><span class="hright"><a class="wlink" href="./work.html" title="Daily / Weekly / Monthly ของทุกแผนก">📋<span class="pl"> แผนงานแผนก</span></a><button class="pbtn" id="pbtn" title="พิมพ์แท็บที่เปิดอยู่" aria-label="พิมพ์หน้านี้">🖨<span class="pl"> พิมพ์หน้านี้</span></button><span class="sync" id="sync" title="สถานะการบันทึกข้อมูล">เก็บในเครื่องนี้</span></span></div>
   <p>บจก. ซีเอ็มเอ็นเอช 2012 · บจก. แทรงควิลา · อัปเดตล่าสุด <span id="upd">–</span></p>
   <nav id="nav"></nav>
 </header>
