@@ -76,6 +76,7 @@ Migration `20261127000006_dwp_plan_write_exec.sql` จำกัดให้เ�
 - Edge Function `supabase/functions/line-notify` (deploy แบบ `--no-verify-jwt`) · Webhook URL ใน LINE Developers: `https://yfswjxzsrgngxbuajnov.supabase.co/functions/v1/line-notify`
 - Secrets ใน Supabase (Edge Functions → Secrets): `LINE_CHANNEL_ACCESS_TOKEN`, `LINE_CHANNEL_SECRET`
 - กลุ่มรับแจ้งเตือน = กลุ่มแรกที่เชิญบอทเข้า (เก็บในตาราง `app_secret` ชื่อ `line_to`) · เปลี่ยนกลุ่ม: `delete from public.app_secret where name='line_to';` แล้วเชิญบอทเข้ากลุ่มใหม่
-- เตือนแผนกที่ยังไม่ส่ง Daily ทุกวัน 17:30 น. ด้วย pg_cron (`20261127000009_dwp_line_reminder.sql`) โดยใช้รหัส `app_secret` ชื่อ `dwp_cron`
+- เตือน จ.–ศ. 17:30 น. ด้วย pg_cron (`20261127000009_dwp_line_reminder.sql`, รหัส `app_secret` ชื่อ `dwp_cron`): สรุปสั้นตามหน่วยเข้ากลุ่ม · วันศุกร์เพิ่ม Weekly · วันที่ 5–9 เพิ่ม Monthly ของเดือนก่อน · ดูข้อความล่วงหน้าโดยไม่ส่ง: `{"type":"reminder","dry":true}`
+- แจ้งเตือนส่วนตัวหัวหน้าแผนก: เพิ่มเพื่อนบอทแล้วพิมพ์ `ผูก <รหัสแผนก>` (แอปมีปุ่มให้ในหน้าเลือกแผนก) · `เลิก` เพื่อหยุดรับ · เก็บในตาราง `dwp_line_sub` · หัวหน้าที่ผูกไว้จะได้รับคำตัดสินของ MD และการเตือนเมื่อแผนกยังไม่ส่ง Daily
 - แอปส่งเรื่องด่วนเข้า LINE เมื่อ `lineNotify: true` ใน `public/config.js` (ปิดได้ด้วย Repository variable `LINE_NOTIFY=false`)
 - พิมพ์ `id` ในแชทที่มีบอท บอทจะตอบ ID ของแชทนั้น

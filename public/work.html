@@ -72,7 +72,7 @@ section{display:none;animation:fade .2s ease}section.on{display:block}
 .grow{flex:1;min-width:0}
 .note{color:var(--mute);font-size:13px}
 .empty{color:var(--mute);text-align:center;padding:28px 14px;margin:0}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:14px;font-weight:600;border-radius:99px;padding:10px 18px;border:1.5px solid var(--line);background:#fff;color:var(--ink);white-space:nowrap;transition:transform .08s,background .15s}
+.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:14px;font-weight:600;border-radius:99px;padding:10px 18px;border:1.5px solid var(--line);background:#fff;color:var(--ink);white-space:nowrap;transition:transform .08s,background .15s}
 .btn:active{transform:scale(.97)}
 .btn .ico{width:18px;height:18px}
 .btn.pri{background:var(--brand);border-color:var(--brand);color:#fff}
@@ -168,6 +168,11 @@ dialog.sheet[open]{animation:up .22s ease}
 .sheet .grab{width:40px;height:5px;border-radius:9px;background:#DDD7CA;margin:10px auto 4px}
 .sheet .sb{padding:8px 20px calc(20px + var(--safe))}
 .sheet h2{font-size:18px;margin:6px 0 16px}
+.linebox{background:#EEF8F0;border-radius:var(--r-s);padding:12px 14px;margin-bottom:14px;font-size:13.5px;line-height:1.5}
+.linebox b.t{display:flex;align-items:center;gap:6px;font-size:14px;color:#06803A;margin-bottom:4px}
+.linebox code{background:#fff;border-radius:6px;padding:1px 7px;font-weight:700;font-family:inherit}
+.linebox .row{margin-top:10px;flex-wrap:wrap}
+.btn.line{background:#06C755;border-color:#06C755;color:#fff}
 @media(min-width:761px){dialog.sheet{margin:auto;border-radius:24px}}
 /* ---------- MD + summary */
 .filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
@@ -344,6 +349,7 @@ dialog.sheet[open]{animation:up .22s ease}
  <div class="field"><span class="lbl">หน่วย</span><select id="selU"></select></div>
  <div class="field"><span class="lbl">แผนก</span><select id="selD"></select></div>
  <div class="field"><span class="lbl">ชื่อผู้บันทึก</span><input id="selN" placeholder="ชื่อ-สกุล หัวหน้าแผนก" autocomplete="name"></div>
+ <div class="linebox" id="lineBox" hidden></div>
  <button class="btn pri" id="sheetOk" style="width:100%;padding:13px">เรียบร้อย</button>
 </div></dialog>
 

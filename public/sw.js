@@ -1,6 +1,6 @@
 // Service worker for the Work Plan app: opens the page shell offline and keeps it fresh.
 // Same-origin files: network first, cached copy when offline. Supabase data is never cached.
-const CACHE = "dwp-v4";
+const CACHE = "dwp-v5";
 const SHELL = ["./work.html", "./config.js", "./supabase-bridge.js", "./dwp-plan.js", "./work.js", "./manifest.webmanifest",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png"];
 self.addEventListener("install", (e) => {

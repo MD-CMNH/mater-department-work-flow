@@ -65,9 +65,18 @@ function fillSelects(){
 const today=ymd(new Date());
 let curR=LS.get('round')||'D',ME=null;
 $('#selN').value=LS.get('name');$('#selDate').value=today;$('#mdDate').value=today;$('#sumM').value=today.slice(0,7);
-$('#selU').onchange=fillDepts;
+$('#selU').onchange=()=>{fillDepts();lineBox()};$('#selD').onchange=lineBox;
+// personal LINE alerts: the head adds the bot and sends "ผูก <department code>" (the bot saves the link)
+let BOT=LS.get('botId');
+async function lineBox(){const box=$('#lineBox'),d=DEPT[$('#selD').value];if(!CFG.lineNotify||!d){box.hidden=true;return}
+ if(!BOT&&sb){const r=await line({type:'botinfo'});if(r&&r.basicId){BOT=r.basicId;LS.set('botId',BOT)}}
+ if(!BOT){box.hidden=true;return}
+ const cmd='ผูก '+d.id;box.hidden=false;
+ box.innerHTML='<b class="t">'+svg('chat')+'รับแจ้งเตือนส่วนตัวทาง LINE</b>คำตัดสินของ MD และการเตือนเมื่อแผนกยังไม่ส่ง Daily จะส่งถึงคุณโดยตรง<br>รหัสแผนกนี้: <code>'+esc(d.id)+'</code>'
+  +'<div class="row"><a class="btn line sm" href="https://line.me/R/ti/p/'+BOT+'" target="_blank" rel="noopener">1. เพิ่มเพื่อน</a>'
+  +'<a class="btn line sm" href="https://line.me/R/oaMessage/'+BOT+'/?'+encodeURIComponent(cmd)+'" target="_blank" rel="noopener">2. ส่ง “'+esc(cmd)+'”</a></div>'}
 const sheet=$('#sheet');
-$('#pickDept').onclick=()=>{const d0=DEPT[LS.get('dept')];if(d0){$('#selU').value=d0.unit.unit;fillDepts()}sheet.showModal()};
+$('#pickDept').onclick=()=>{const d0=DEPT[LS.get('dept')];if(d0){$('#selU').value=d0.unit.unit;fillDepts()}lineBox();sheet.showModal()};
 $('#sheetOk').onclick=()=>{LS.set('dept',$('#selD').value);LS.set('name',$('#selN').value.trim());sheet.close();drawMe()};
 sheet.addEventListener('click',e=>{if(e.target===sheet)sheet.close()});
 $('#selDate').onchange=drawMe;
@@ -193,7 +202,9 @@ async function drawMd(){const d=parse($('#mdDate').value||today),K=keys(d),uf=$(
    +(x.kind==='esc'&&x.urgent&&!x.ack?'<div class="iack"><input placeholder="คำตัดสิน / คำสั่ง" data-j="'+j+'"><button class="btn pri sm" data-j="'+j+'">บันทึก</button></div>':'')+'</div>').join('')
   :'<div class="card"><p class="empty">'+svg('ok')+'<br>ไม่มีเรื่องค้างใน 7 วันล่าสุด</p></div>';
  $('#mdIss').querySelectorAll('button[data-j]').forEach(b=>b.onclick=async()=>{const x=iss[+b.dataset.j],n=$('#mdIss').querySelector('input[data-j="'+b.dataset.j+'"]').value.trim()||'รับทราบ';
-  await save(docKey(x.dept.id,x.mk),v=>{const e=entry(v,x.p);e.rep.ack={n,at:Date.now()}});drawMd()})}
+  await save(docKey(x.dept.id,x.mk),v=>{const e=entry(v,x.p);e.rep.ack={n,at:Date.now()}});
+  // tell the department's heads who subscribed on LINE
+  line({type:'decision',dept:x.dept.id,deptName:x.dept.name,when:when(x),issue:x.txt,decision:n});drawMd()})}
 
 // ---------- monthly summary
 $('#sumM').onchange=drawSum;$('#sumU').onchange=drawSum;
@@ -326,7 +337,7 @@ window.claude.use('db').then(async()=>{sb=window.__sb;
  if(!DEPT[LS.get('dept')])LS.set('dept','');
  const h=location.hash.slice(1);if(['md','sum','edit'].includes(h))show(h);else drawMe();
  // first visit: pick the department and name
- if(!LS.get('dept')&&!h){$('#deptName').textContent='เลือกแผนกของคุณ';sheet.showModal()}
+ if(!LS.get('dept')&&!h){$('#deptName').textContent='เลือกแผนกของคุณ';lineBox();sheet.showModal()}
  if(window.__fin!==undefined)level()});
 
 // ---------- installable app (PWA)
