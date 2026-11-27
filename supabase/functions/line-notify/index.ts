@@ -2,9 +2,11 @@
 //   POST {type:"escalation", ...}  from the app (signed-in editor): urgent report -> LINE
 //   POST {type:"summary", text}    from the app (executive account): monthly summary -> LINE
 //   POST {type:"reminder"}         from pg_cron with header x-cron-secret: departments that have not sent today's Daily Report
-//   LINE webhook (x-line-signature): replies with the chat's ID so it can be set as LINE_TO
-// Secrets: LINE_CHANNEL_ACCESS_TOKEN, LINE_CHANNEL_SECRET, LINE_TO (user/group ID; empty = broadcast to all friends),
-//          CRON_SECRET, SITE_URL (optional link in messages). Deploy with --no-verify-jwt (auth is checked here).
+//   LINE webhook (x-line-signature): the first group the bot joins becomes the alert group (saved in app_secret
+//          'line_to'); typing "id" in a chat replies with its ID
+// Secrets: LINE_CHANNEL_ACCESS_TOKEN, LINE_CHANNEL_SECRET. Optional: LINE_TO (overrides the saved group; with neither,
+//          messages are broadcast to all friends), CRON_SECRET (else app_secret 'dwp_cron'), SITE_URL.
+// Deploy with --no-verify-jwt (auth is checked here).
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const env = (k: string) => Deno.env.get(k) ?? "";
@@ -25,10 +27,17 @@ async function lineApi(path: string, body: unknown) {
   });
   if (!r.ok) throw new Error("LINE " + r.status + ": " + (await r.text()));
 }
+// settings kept in public.app_secret (RLS on, no policies: only the service role reads it)
+async function setting(name: string) {
+  const { data } = await admin.from("app_secret").select("value").eq("name", name).maybeSingle();
+  return (data?.value as string) ?? "";
+}
 const cut = (s: string) => (s.length > 4900 ? s.slice(0, 4890) + "\n…" : s);
-const send = (text: string) => {
-  const messages = [{ type: "text", text: cut(text + (env("SITE_URL") ? "\n\n" + env("SITE_URL") : "")) }];
-  return env("LINE_TO") ? lineApi("push", { to: env("LINE_TO"), messages }) : lineApi("broadcast", { messages });
+const SITE = () => env("SITE_URL") || "https://md-cmnh.github.io/mater-department-work-flow/work.html";
+const send = async (text: string) => {
+  const messages = [{ type: "text", text: cut(text + "\n\n" + SITE()) }];
+  const to = env("LINE_TO") || (await setting("line_to"));
+  return to ? lineApi("push", { to, messages }) : lineApi("broadcast", { messages });
 };
 
 // signed-in user: anonymous Work Plan visitor, or in allowed_users (editor); exec = finance access
@@ -86,12 +95,19 @@ Deno.serve(async (req) => {
 
   const sig = req.headers.get("x-line-signature");
   if (sig) {
+    if (!env("LINE_CHANNEL_SECRET")) return json({ error: "LINE_CHANNEL_SECRET not set" }, 503);
     if (!(await verifyLine(raw, sig))) return json({ error: "bad signature" }, 401);
     for (const ev of JSON.parse(raw).events ?? []) {
       const s = ev.source ?? {}, id = s.groupId ?? s.roomId ?? s.userId;
-      const ask = ev.type === "join" || (ev.type === "message" && /^(id|ไอดี)$/i.test((ev.message?.text ?? "").trim()));
-      if (ask && ev.replyToken && id)
-        await lineApi("reply", { replyToken: ev.replyToken, messages: [{ type: "text", text: "ID ของแชทนี้ (ใส่เป็น LINE_TO):\n" + id }] });
+      if (!ev.replyToken || !id) continue;
+      const reply = (text: string) => lineApi("reply", { replyToken: ev.replyToken, messages: [{ type: "text", text }] });
+      if (ev.type === "join") {
+        // the first group the bot is invited to becomes the alert group
+        if (!env("LINE_TO") && !(await setting("line_to"))) {
+          await admin.from("app_secret").upsert({ name: "line_to", value: id });
+          await reply("✅ ตั้งกลุ่มนี้เป็นกลุ่มรับแจ้งเตือนแผนงานแผนกแล้ว\nเรื่องด่วนจากหัวหน้าแผนก และสรุปแผนกที่ยังไม่ส่ง Daily Report (17:30 น.) จะส่งมาที่นี่");
+        } else await reply("บอทนี้ส่งแจ้งเตือนไปที่กลุ่มอื่นอยู่แล้ว (ID ของแชทนี้: " + id + ")");
+      } else if (ev.type === "message" && /^(id|ไอดี)$/i.test((ev.message?.text ?? "").trim())) await reply("ID ของแชทนี้:\n" + id);
     }
     return json({ ok: true });
   }
@@ -100,7 +116,8 @@ Deno.serve(async (req) => {
   try { b = JSON.parse(raw || "{}"); } catch { return json({ error: "bad json" }, 400); }
   try {
     if (b.type === "reminder") {
-      if (!env("CRON_SECRET") || req.headers.get("x-cron-secret") !== env("CRON_SECRET")) return json({ error: "forbidden" }, 403);
+      const want = env("CRON_SECRET") || (await setting("dwp_cron"));
+      if (!want || req.headers.get("x-cron-secret") !== want) return json({ error: "forbidden" }, 403);
       const text = await reminder();
       await send(text);
       return json({ ok: true, text });
