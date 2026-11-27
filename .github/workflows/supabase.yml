@@ -1,0 +1,60 @@
+name: Apply Supabase setup
+
+# Runs when supabase/ changes on main (or by hand): applies the Work Plan migrations, turns on
+# anonymous sign-ins (Work Plan without a password) and deploys the line-notify Edge Function.
+# Needs repository secrets SUPABASE_DB_URL (session pooler connection string) and SUPABASE_ACCESS_TOKEN;
+# steps whose secret is missing are skipped.
+on:
+  push:
+    branches: [main]
+    paths: ["supabase/**", ".github/workflows/supabase.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supabase
+  cancel-in-progress: false
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      PROJECT_REF: ${{ vars.SUPABASE_PROJECT_REF || 'yfswjxzsrgngxbuajnov' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check secrets
+        run: |
+          [ -n "$SUPABASE_DB_URL" ] || echo "::warning::SUPABASE_DB_URL is not set: migrations skipped"
+          [ -n "$SUPABASE_ACCESS_TOKEN" ] || echo "::warning::SUPABASE_ACCESS_TOKEN is not set: anonymous sign-in and Edge Function skipped"
+
+      # Migrations from 20261127000006 on are written to be safe to run again, so every run applies all of them.
+      - name: Apply Work Plan migrations
+        if: env.SUPABASE_DB_URL != ''
+        run: |
+          command -v psql >/dev/null || (sudo apt-get update -q && sudo apt-get install -yq postgresql-client)
+          for f in supabase/migrations/*.sql; do
+            n=$(basename "$f"); [[ "$n" < "20261127000006" ]] && continue
+            echo "Applying $n"; psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -q -1 -f "$f"
+          done
+
+      - name: Turn on anonymous sign-ins
+        if: env.SUPABASE_ACCESS_TOKEN != ''
+        run: |
+          curl -fsS -X PATCH "https://api.supabase.com/v1/projects/$PROJECT_REF/config/auth" \
+            -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" \
+            -d '{"external_anonymous_users_enabled": true}' -o /dev/null
+          echo "Anonymous sign-ins enabled"
+
+      - uses: supabase/setup-cli@v1
+        if: env.SUPABASE_ACCESS_TOKEN != ''
+        with:
+          version: latest
+
+      - name: Deploy line-notify Edge Function
+        if: env.SUPABASE_ACCESS_TOKEN != ''
+        run: supabase functions deploy line-notify --no-verify-jwt --project-ref "$PROJECT_REF"

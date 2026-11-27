@@ -64,7 +64,10 @@ npx serve public
 - **ติดตั้งเป็นแอป (PWA)**: บน Android หรือ Chrome ให้กดปุ่ม "⬇ ติดตั้งแอป" ที่หัวหน้า บน iPhone ให้เปิดด้วย Safari แล้วเลือก แชร์ → "เพิ่มไปยังหน้าจอโฮม"
 
 **เข้าโดยไม่ต้องใส่รหัส**: เปิด `work.html` แล้วระบบจะเข้าเป็นพนักงานให้ทันที (ใช้ Supabase anonymous sign-in) ผู้ใช้แบบนี้ติ๊กงานและส่งรายงานได้ แต่เข้าถึงได้เฉพาะข้อมูลแผนงานแผนก (`dwp:*`) แก้รายการงานไม่ได้ และไม่เห็นแดชบอร์ดปี 2570 หรือตัวเลขการเงิน ผู้บริหารให้กดปุ่ม "เข้าสู่ระบบผู้บริหาร" แล้วใส่รหัส ถ้ายังไม่ได้เปิด anonymous sign-in หน้าเว็บจะแสดงช่องใส่รหัสเหมือนเดิม
-เปิดใช้: Supabase → Authentication → Sign In / Providers → เปิด **Allow anonymous sign-ins** และรัน migration `20261127000007_dwp_guest_access.sql`
+ตั้งค่าอัตโนมัติ: workflow `.github/workflows/supabase.yml` จะรัน migration ตั้งแต่ `20261127000006` เปิด anonymous sign-in และ deploy `line-notify` ให้เองทุกครั้งที่ `supabase/` บน `main` เปลี่ยน (หรือสั่งรันเองที่ Actions → "Apply Supabase setup") ต้องมี Repository secrets 2 ตัว:
+- `SUPABASE_DB_URL`: Supabase → ปุ่ม **Connect** → **Session pooler** → คัดลอก URI แล้วแทน `[YOUR-PASSWORD]` ด้วยรหัสฐานข้อมูล
+- `SUPABASE_ACCESS_TOKEN`: https://supabase.com/dashboard/account/tokens → Generate new token
+(migration ใหม่ต่อจากนี้ต้องเขียนให้รันซ้ำได้)
 
 Migration `20261127000006_dwp_plan_write_exec.sql` จำกัดให้เฉพาะบัญชีผู้บริหาร (`finance = true`) บันทึก `dwp:plan` ได้ ใช้งานด้วยคำสั่ง `npx supabase db push`
 
